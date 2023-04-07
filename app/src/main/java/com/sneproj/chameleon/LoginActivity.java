@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.sneproj.chameleon.databinding.ActivityLoginBinding;
 import com.sneproj.chameleon.model.User;
 import com.sneproj.chameleon.utils.Constants;
+import com.sneva.easyprefs.EasyPrefs;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private GoogleSignInClient mGoogleSignInClient;
     int RC_SIGN_IN = 11;
+    LoadingDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         auth = FirebaseAuth.getInstance();
+        dialog = new LoadingDialog();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
@@ -80,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
             LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
+                    dialog.showdialog(LoginActivity.this);
                     AuthCredential credential = FacebookAuthProvider.getCredential(loginResult.getAccessToken().getToken());
                     FirebaseAuth.getInstance().signInWithCredential(credential)
                             .addOnCompleteListener(task -> {
@@ -113,6 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                                 if (snapshot.exists()) {
+                                                                    dialog.dismissdialog();
                                                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                     startActivity(intent);
@@ -121,6 +126,8 @@ public class LoginActivity extends AppCompatActivity {
                                                                         @Override
                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                             if (task.isSuccessful()) {
+                                                                                dialog.dismissdialog();
+                                                                                EasyPrefs.use().getBoolean("isNew", true);
                                                                                 Intent intent = new Intent(LoginActivity.this, NewUserActivity.class);
                                                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                                 startActivity(intent);
@@ -167,6 +174,7 @@ public class LoginActivity extends AppCompatActivity {
     private void authWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         // Show Progress Bar
+        dialog.showdialog(this);
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -188,6 +196,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if (snapshot.exists()) {
+                                        dialog.dismissdialog();
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
@@ -196,7 +205,11 @@ public class LoginActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-
+                                                    dialog.dismissdialog();
+                                                    EasyPrefs.use().getBoolean("isNew", true);
+                                                    Intent intent = new Intent(LoginActivity.this, NewUserActivity.class);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(intent);
                                                 }
                                             }
                                         });

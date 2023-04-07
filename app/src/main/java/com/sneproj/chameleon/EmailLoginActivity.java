@@ -29,6 +29,7 @@ public class EmailLoginActivity extends AppCompatActivity {
     FirebaseDatabase database;
     String userId;
     LoadingDialog dialog = new LoadingDialog();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +50,11 @@ public class EmailLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (binding.emailBox.getText().length() ==0){
+                if (binding.emailBox.getText().length() == 0) {
                     binding.emailBox.setError("Required Email");
-                }else if (binding.passwordBox.getText().length() ==0){
+                } else if (binding.passwordBox.getText().length() == 0) {
                     binding.passwordBox.setError("Required Password");
-                }else {
+                } else {
                     String email, pass;
 
                     email = binding.emailBox.getText().toString();
@@ -64,12 +65,11 @@ public class EmailLoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
-                            if (task.isSuccessful()){
+                            if (task.isSuccessful()) {
 
                                 userId = auth.getCurrentUser().getUid();
                                 FirebaseUser user = auth.getCurrentUser();
-                                if (!user.isEmailVerified())
-                                {
+                                if (!user.isEmailVerified()) {
                                     // if user email is not verified - goto com.myapplication.ConfirmEmail
                                     startActivity(new Intent(getApplicationContext(), ConfirmEmail.class));
 
@@ -80,16 +80,15 @@ public class EmailLoginActivity extends AppCompatActivity {
                                     finish();
                                 }
 
-                            }else{
+                            } else {
                                 dialog.dismissdialog();
                                 Toast.makeText(EmailLoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
 
 
-                            }
+                        }
 
                     });
-
 
 
                 }

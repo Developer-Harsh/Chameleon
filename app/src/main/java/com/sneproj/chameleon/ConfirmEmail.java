@@ -16,12 +16,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.sneproj.chameleon.databinding.ActivityConfirmEmailBinding;
+import com.sneva.easyprefs.EasyPrefs;
 
 
 public class ConfirmEmail extends AppCompatActivity {
 ActivityConfirmEmailBinding binding;
 
-    FirebaseAuth fAuth = FirebaseAuth.getInstance();
+    FirebaseAuth fAuth;
+    FirebaseUser user;
+    LoadingDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,9 @@ ActivityConfirmEmailBinding binding;
         binding = ActivityConfirmEmailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        fAuth = FirebaseAuth.getInstance();
+        user = fAuth.getCurrentUser();
+        dialog = new LoadingDialog();
 
         // Button signIn
         binding.signing.setOnClickListener(new View.OnClickListener() {
@@ -40,26 +46,38 @@ ActivityConfirmEmailBinding binding;
         binding.resend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callResendCode();
+                sendEmailVerificationLink();
             }
         });
     }
 
-    // Reset Password Method
-    public void callResendCode() {
-        FirebaseUser fuser = fAuth.getCurrentUser();
-        fuser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(ConfirmEmail.this,"Verification Code Sent Successfully!", Toast.LENGTH_SHORT).show();
-                Log.d("Resend Verification", "Resend Verification Code Successfully!");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ConfirmEmail.this,"Verification Code Error!", Toast.LENGTH_SHORT).show();
-                Log.d("Resend Verification", "Resend Verification CodeError!");
-            }
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (user != null) {
+            user.reload().addOnSuccessListener(aVoid -> {
+                        if (user.isEmailVerified()) {
+                            EasyPrefs.use().getBoolean("isNew", true);
+                            Intent intent = new Intent(ConfirmEmail.this, NewUserActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    }).addOnFailureListener(e -> {
+                    });
+        } else {
+            fAuth.signOut();
+        }
+    }
+
+    private void sendEmailVerificationLink() {
+        if (user != null && !user.isEmailVerified())
+            user.sendEmailVerification()
+                    .addOnSuccessListener(aVoid -> {
+                        dialog.showdialog(ConfirmEmail.this);
+                        Toast.makeText(this, "Email verification email sent to your email address!", Toast.LENGTH_SHORT).show();
+                    }).addOnFailureListener(e -> {
+                        dialog.showdialog(ConfirmEmail.this);
+                        Toast.makeText(this, "We are not able to send verification email, please try again later!", Toast.LENGTH_SHORT).show();
+                    });
     }
 }

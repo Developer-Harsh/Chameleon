@@ -30,6 +30,7 @@ public class EmailSignupActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     LoadingDialog dialog = new LoadingDialog();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,21 +45,19 @@ public class EmailSignupActivity extends AppCompatActivity {
         }
 
 
-
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-
 
 
         binding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-         if (binding.emailBox.getText().length() ==0){
+                if (binding.emailBox.getText().length() == 0) {
                     binding.emailBox.setError("Required Email");
-                }else if (binding.passwordBox.getText().length() ==0){
+                } else if (binding.passwordBox.getText().length() == 0) {
                     binding.passwordBox.setError("Required Password");
-                }else {
+                } else {
                     String email, pass, name, referCode;
 
                     email = binding.emailBox.getText().toString();
@@ -70,18 +69,6 @@ public class EmailSignupActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser fuser = auth.getCurrentUser();
-                                if (fuser != null) {
-                                    fuser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Toast.makeText(EmailSignupActivity.this, "Verification email sent", Toast.LENGTH_SHORT).show();
-                                            } else {
-                                                Toast.makeText(EmailSignupActivity.this, "Failed to send verification email", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-                                }
                                 User updateUser = new User();
                                 updateUser.name = task.getResult().getUser().getDisplayName();
                                 updateUser.uname = "null";
@@ -108,16 +95,28 @@ public class EmailSignupActivity extends AppCompatActivity {
 
                                                 } else {
                                                     database.getReference().child(Constants.COLLECTION_USERS)
-                                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                                            .setValue(updateUser)
-                                           .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            if (task.isSuccessful()) {
-                                                                dialog.dismissdialog();
-                                                            }
-                                                        }
-                                                    });
+                                                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                            .setValue(updateUser)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        dialog.dismissdialog();
+                                                                        if (fuser != null) {
+                                                                            fuser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                @Override
+                                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                                    if (task.isSuccessful()) {
+                                                                                        Toast.makeText(EmailSignupActivity.this, "Verification email sent", Toast.LENGTH_SHORT).show();
+                                                                                    } else {
+                                                                                        Toast.makeText(EmailSignupActivity.this, "Failed to send verification email", Toast.LENGTH_SHORT).show();
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }
+                                                                }
+                                                            });
                                                 }
                                             }
 
@@ -135,12 +134,11 @@ public class EmailSignupActivity extends AppCompatActivity {
                     });
 
 
+                }
+            }
 
-        }
-         }
-
-    });
-        }
+        });
+    }
 
 
 }
