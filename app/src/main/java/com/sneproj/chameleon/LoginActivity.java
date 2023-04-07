@@ -67,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.back.setOnClickListener(v -> finish());
 
+
         binding.google.setOnClickListener(v -> {
             Intent intent = mGoogleSignInClient.getSignInIntent();
             startActivityForResult(intent, RC_SIGN_IN);
@@ -160,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
             });
         });
 
-        binding.email.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, EmailActivity.class).putExtra("login", true)));
+        binding.email.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, EmailLoginActivity.class).putExtra("login", true)));
     }
 
     private void authWithGoogle(String idToken) {

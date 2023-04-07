@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -22,6 +23,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -65,6 +67,11 @@ public class RegisterActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(RegisterActivity.this, gso);
 
         binding.back.setOnClickListener(v -> finish());
+
+
+
+        binding.email.setOnClickListener(v ->
+                startActivity(new Intent(RegisterActivity.this, EmailSignupActivity.class)));
 
         binding.google.setOnClickListener(v -> {
             Intent intent = mGoogleSignInClient.getSignInIntent();
@@ -157,8 +164,10 @@ public class RegisterActivity extends AppCompatActivity {
             });
         });
 
-        binding.email.setOnClickListener(v -> startActivity(new Intent(RegisterActivity.this, EmailActivity.class).putExtra("login", false)));
+        binding.email.setOnClickListener(v -> startActivity(new Intent(RegisterActivity.this, EmailSignupActivity.class)));
     }
+
+
 
     private void authWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
@@ -184,9 +193,10 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if (snapshot.exists()) {
-                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        startActivity(intent);
+//                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+//                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                        startActivity(intent);
+                                        Toast.makeText(RegisterActivity.this, "This Account Already exist", Toast.LENGTH_SHORT).show();
                                     }  else {
                                         snapshot.getRef().setValue(updateUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override

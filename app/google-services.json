@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "286030855554",
-    "project_id": "paraschame",
-    "storage_bucket": "paraschame.appspot.com"
+    "project_number": "1034493951072",
+    "project_id": "chameleon-e4cc2",
+    "storage_bucket": "chameleon-e4cc2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:286030855554:android:9d232fef8529668674639b",
+        "mobilesdk_app_id": "1:1034493951072:android:16fe91285f46d770ac9705",
         "android_client_info": {
           "package_name": "com.sneproj.chameleon"
         }
       },
       "oauth_client": [
         {
-          "client_id": "286030855554-nc9ee7cdf2nt61covkh27fp96koqnp97.apps.googleusercontent.com",
+          "client_id": "1034493951072-nsglfhhin8gakiuhgb4ne4rm36bna4e3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDdBD2mjvg7mJHrDLmzdsCcXSLSrQfbjRc"
+          "current_key": "AIzaSyBISqJU5jQaARtN7Z89ztNXd8yA6r2BQxg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "286030855554-nc9ee7cdf2nt61covkh27fp96koqnp97.apps.googleusercontent.com",
+              "client_id": "1034493951072-nsglfhhin8gakiuhgb4ne4rm36bna4e3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
