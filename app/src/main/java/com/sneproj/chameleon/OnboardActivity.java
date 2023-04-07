@@ -30,7 +30,7 @@ public class OnboardActivity extends AppCompatActivity {
         }
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Intent intent = new Intent(OnboardActivity.this, NewUserActivity.class);
+            Intent intent = new Intent(OnboardActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
