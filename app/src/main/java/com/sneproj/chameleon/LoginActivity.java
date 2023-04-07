@@ -8,6 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -16,6 +23,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -26,6 +34,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.sneproj.chameleon.databinding.ActivityLoginBinding;
 import com.sneproj.chameleon.model.User;
 import com.sneproj.chameleon.utils.Constants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -58,6 +71,92 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = mGoogleSignInClient.getSignInIntent();
             startActivityForResult(intent, RC_SIGN_IN);
         });
+
+        binding.facebook.setOnClickListener(v -> {
+            LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email"));
+
+            CallbackManager callbackManager = CallbackManager.Factory.create();
+            LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    AuthCredential credential = FacebookAuthProvider.getCredential(loginResult.getAccessToken().getToken());
+                    FirebaseAuth.getInstance().signInWithCredential(credential)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = auth.getCurrentUser();
+
+                                    GraphRequest request = GraphRequest.newMeRequest(
+                                            loginResult.getAccessToken(),
+                                            new GraphRequest.GraphJSONObjectCallback() {
+                                                @Override
+                                                public void onCompleted(JSONObject object, GraphResponse response) {
+                                                    try {
+                                                        String email = object.getString("email");
+                                                        String name = object.getString("name");
+                                                        String id = object.getString("id");
+                                                        String profilePicUrl = "https://graph.facebook.com/" + id + "/picture?type=large";
+
+                                                        User updateUser = new User();
+                                                        updateUser.name = name;
+                                                        updateUser.uname = "snechameleon";
+                                                        updateUser.bio = "";
+                                                        updateUser.email = email;
+                                                        updateUser.gender = "NA";
+                                                        updateUser.uid = user.getUid();
+                                                        updateUser.profile = profilePicUrl;
+                                                        updateUser.number = "";
+                                                        updateUser.nativeLang = "";
+                                                        updateUser.location = "";
+
+                                                        FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS).child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                if (snapshot.exists()) {
+
+                                                                }  else {
+                                                                    snapshot.getRef().setValue(updateUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            if (task.isSuccessful()) {
+
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                                            }
+                                                        });
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+                                    Bundle parameters = new Bundle();
+                                    parameters.putString("fields", "id,name,email");
+                                    request.setParameters(parameters);
+                                    request.executeAsync();
+                                }  // Handle user authentication failure
+
+                            });
+                }
+
+                @Override
+                public void onCancel() {
+                    // Handle authentication cancellation
+                }
+
+                @Override
+                public void onError(FacebookException error) {
+                    // Handle authentication error
+                }
+            });
+        });
+
+        binding.email.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, EmailActivity.class).putExtra("login", true)));
     }
 
     private void authWithGoogle(String idToken) {
