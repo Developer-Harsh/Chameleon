@@ -11,7 +11,7 @@
         android:layout_marginTop="10dp"
         android:id="@+id/imageView"
         android:layout_width="350dp"
-        android:layout_height="290dp"
+        android:layout_height="200dp"
         android:src="@drawable/illustaration_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

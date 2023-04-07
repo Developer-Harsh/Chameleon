@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:gravity="center"
+    android:layout_width="80dp"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.sneva.roundedview.RoundedImage
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/img"
+            android:src="@mipmap/ic_launcher"
+            app:rimage_oval="true" />
+
+        <com.sneva.roundedview.RoundedImage
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:id="@+id/presence"
+            android:src="#1AA800"
+            android:layout_gravity="bottom|right"
+            app:rimage_border_color="@color/white"
+            app:rimage_border_width="2dp"
+            app:rimage_oval="true" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center">
+
+        <com.sneva.roundedview.RoundedImage
+            android:layout_width="18dp"
+            android:layout_height="15dp"
+            android:scaleType="centerCrop"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            app:rimage_corner_radius="4dp"
+            android:src="@drawable/indian_flag"
+            android:id="@+id/langs" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/countStrikes"
+            android:textSize="12sp"
+            android:text="Harsh"
+            android:maxLines="1"
+            android:layout_marginLeft="5dp"
+            android:textColor="#000"
+            android:fontFamily="@font/poppins_bold" />
+
+    </LinearLayout>
+
+</LinearLayout>

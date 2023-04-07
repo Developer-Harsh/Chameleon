@@ -3,6 +3,7 @@ package com.sneproj.chameleon;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,6 +22,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        getSupportActionBar().hide();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(MainActivity.this.getColor(R.color.bg_main));
+            getWindow().setNavigationBarColor(MainActivity.this.getColor(R.color.white));
+        }
 
         binding.bottomNav.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
