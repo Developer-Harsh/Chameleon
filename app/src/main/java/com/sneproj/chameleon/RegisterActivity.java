@@ -111,7 +111,9 @@ public class RegisterActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                                 if (snapshot.exists()) {
-
+                                                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                    startActivity(intent);
                                                                 }  else {
                                                                     snapshot.getRef().setValue(updateUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
@@ -182,7 +184,9 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if (snapshot.exists()) {
-
+                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
                                     }  else {
                                         snapshot.getRef().setValue(updateUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override

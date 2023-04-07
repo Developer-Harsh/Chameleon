@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.MediaController;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.sneproj.chameleon.databinding.ActivityOnboardBinding;
 
 public class OnboardActivity extends AppCompatActivity {
@@ -26,6 +27,12 @@ public class OnboardActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setStatusBarColor(OnboardActivity.this.getColor(R.color.white));
             getWindow().setNavigationBarColor(OnboardActivity.this.getColor(R.color.white));
+        }
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Intent intent = new Intent(OnboardActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
 
         binding.videoview.setVideoURI(Uri.parse("android.resource://"+ getPackageName() + "/" + R.raw.video));

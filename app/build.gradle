@@ -45,6 +45,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'com.github.snevatechnologies:RoundedImage:1.0'
+    implementation 'com.github.snevatechnologies:EasyPrefs:1.1'
 
     implementation 'com.google.firebase:firebase-auth:21.2.0'
     implementation 'com.google.firebase:firebase-database:20.1.0'

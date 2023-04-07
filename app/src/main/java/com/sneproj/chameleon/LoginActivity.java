@@ -112,13 +112,17 @@ public class LoginActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                                 if (snapshot.exists()) {
-
+                                                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                    startActivity(intent);
                                                                 }  else {
                                                                     snapshot.getRef().setValue(updateUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                             if (task.isSuccessful()) {
-
+                                                                                Intent intent = new Intent(LoginActivity.this, NewUserActivity.class);
+                                                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                                startActivity(intent);
                                                                             }
                                                                         }
                                                                     });
@@ -183,7 +187,9 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if (snapshot.exists()) {
-
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
                                     }  else {
                                         snapshot.getRef().setValue(updateUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
