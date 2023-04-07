@@ -72,7 +72,6 @@ public class RegisterActivity extends AppCompatActivity {
         binding.back.setOnClickListener(v -> finish());
 
 
-
         binding.email.setOnClickListener(v ->
                 startActivity(new Intent(RegisterActivity.this, EmailSignupActivity.class)));
 
@@ -124,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                                 if (snapshot.exists()) {
                                                                     dialog.dismissdialog();
                                                                     Toast.makeText(RegisterActivity.this, "This Account Already exist", Toast.LENGTH_SHORT).show();
-                                                                }  else {
+                                                                } else {
                                                                     snapshot.getRef().setValue(updateUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
                                                                         public void onComplete(@NonNull Task<Void> task) {
@@ -175,7 +174,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-
     private void authWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         // Show Progress Bar
@@ -205,7 +203,7 @@ public class RegisterActivity extends AppCompatActivity {
 //                                        startActivity(intent);
                                         dialog.dismissdialog();
                                         Toast.makeText(RegisterActivity.this, "This Account Already exist", Toast.LENGTH_SHORT).show();
-                                    }  else {
+                                    } else {
                                         snapshot.getRef().setValue(updateUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {

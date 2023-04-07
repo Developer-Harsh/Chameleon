@@ -11,6 +11,7 @@ import com.sneproj.chameleon.databinding.ActivitySplashBinding;
 public class SplashActivity extends AppCompatActivity {
 
     ActivitySplashBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,17 +25,15 @@ public class SplashActivity extends AppCompatActivity {
         }
 
 
-        Thread thread = new Thread(){
+        Thread thread = new Thread() {
 
-            public void run(){
+            public void run() {
                 try {
                     sleep(1000);
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
 
-                }
-                finally {
+                } finally {
 
                     Intent intent = new Intent(SplashActivity.this, OnboardActivity.class);
 
@@ -44,7 +43,8 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
 
-        };thread.start();
+        };
+        thread.start();
     }
 
-    }
+}

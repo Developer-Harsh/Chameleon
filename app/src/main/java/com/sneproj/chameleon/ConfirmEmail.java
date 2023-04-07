@@ -21,7 +21,7 @@ import com.sneva.easyprefs.EasyPrefs;
 
 
 public class ConfirmEmail extends AppCompatActivity {
-ActivityConfirmEmailBinding binding;
+    ActivityConfirmEmailBinding binding;
 
     FirebaseAuth fAuth;
     FirebaseUser user;
@@ -64,14 +64,14 @@ ActivityConfirmEmailBinding binding;
         super.onResume();
         if (user != null) {
             user.reload().addOnSuccessListener(aVoid -> {
-                        if (user.isEmailVerified()) {
-                            EasyPrefs.use().getBoolean("isNew", true);
-                            Intent intent = new Intent(ConfirmEmail.this, NewUserActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        }
-                    }).addOnFailureListener(e -> {
-                    });
+                if (user.isEmailVerified()) {
+                    EasyPrefs.use().getBoolean("isNew", true);
+                    Intent intent = new Intent(ConfirmEmail.this, NewUserActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            }).addOnFailureListener(e -> {
+            });
         } else {
             fAuth.signOut();
         }

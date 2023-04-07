@@ -35,7 +35,7 @@ public class OnboardActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        binding.videoview.setVideoURI(Uri.parse("android.resource://"+ getPackageName() + "/" + R.raw.video));
+        binding.videoview.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video));
         binding.videoview.requestFocus();
         binding.videoview.start();
         binding.videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
