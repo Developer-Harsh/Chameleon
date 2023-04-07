@@ -1,6 +1,7 @@
 package com.sneproj.chameleon;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +32,13 @@ ActivityConfirmEmailBinding binding;
         super.onCreate(savedInstanceState);
         binding = ActivityConfirmEmailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        getSupportActionBar().hide();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(ConfirmEmail.this.getColor(R.color.bg_main));
+            getWindow().setNavigationBarColor(ConfirmEmail.this.getColor(R.color.bg_main));
+        }
 
         fAuth = FirebaseAuth.getInstance();
         user = fAuth.getCurrentUser();
