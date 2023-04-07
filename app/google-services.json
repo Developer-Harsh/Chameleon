@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "286030855554",
+    "project_id": "paraschame",
+    "storage_bucket": "paraschame.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286030855554:android:9d232fef8529668674639b",
+        "android_client_info": {
+          "package_name": "com.sneproj.chameleon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286030855554-nc9ee7cdf2nt61covkh27fp96koqnp97.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdBD2mjvg7mJHrDLmzdsCcXSLSrQfbjRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "286030855554-nc9ee7cdf2nt61covkh27fp96koqnp97.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
