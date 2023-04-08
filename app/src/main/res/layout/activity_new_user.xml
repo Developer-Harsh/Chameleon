@@ -40,10 +40,28 @@
         android:layout_height="110dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@color/mainColor"
+        android:src="@drawable/logo"
         app:rimage_corner_radius="80dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <com.sneva.roundedview.RoundedImage
+        android:id="@+id/add"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/plus"
+        android:layout_marginTop="80dp"
+        android:padding="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/userimage"
+        app:layout_constraintEnd_toEndOf="@+id/userimage"
+        app:layout_constraintTop_toTopOf="@+id/userimage">
+
+        </com.sneva.roundedview.RoundedImage>
+
+
+
+
+
 
 
     <EditText
@@ -65,6 +83,7 @@
 
 
     <LinearLayout
+        android:id="@+id/linear1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -72,6 +91,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="20dp"
         android:padding="8dp"
+
         android:layout_marginHorizontal="12dp"
         android:background="@drawable/textbox"
         app:layout_constraintTop_toBottomOf="@+id/name" >
@@ -82,12 +102,71 @@
             app:ccp_textSize="20dp"
             android:layout_height="50dp"
             app:ccp_hideNameCode ="true"
-android:gravity="center_vertical"
+            app:ccp_defaultNameCode="US"
+            android:gravity="center_vertical"
             android:layout_marginStart="10dp"
             app:ccp_showFullName="true"
             app:ccp_hidePhoneCode="true"
            />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/textbox"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear1">
+
+        <Spinner
+            android:id="@+id/language"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            app:ccp_hideNameCode="true"
+            app:ccp_hidePhoneCode="true"
+            app:ccp_showFullName="true"
+            app:ccp_textSize="20dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="By continuing, you are agreeing to our Terms \n and Privacy Policy"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/Next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="@font/poppins_bold"
+        android:layout_marginHorizontal="30dp"
+        android:paddingVertical="13dp"
+        android:text="Continue"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:backgroundTint="#0073FF"
+        app:cornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView4"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+         />
 
 
 
