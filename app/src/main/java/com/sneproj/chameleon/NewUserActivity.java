@@ -74,8 +74,16 @@ public class NewUserActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
                             usermodal = snapshot.getValue(User.class);
+                            String loc = usermodal.location;
+                            if (loc != null){
+                                startActivity(new Intent(NewUserActivity.this, MainActivity.class));
+                            }
+                            String lang = usermodal.nativeLang;
+                            if (lang != null){
+                                startActivity(new Intent(NewUserActivity.this, MainActivity.class));
+                            }
                             image = usermodal.profile;
-                            uniquekey = usermodal.uid;
+
                             Glide.with(NewUserActivity.this).load(usermodal.profile).into(binding.userimage);
                             binding.name.setText(usermodal.name);
                         } else {
@@ -201,12 +209,14 @@ public class NewUserActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener() {
                     @Override
                     public void onSuccess(Object o) {
+
+                        startActivity(new Intent(NewUserActivity.this, MainActivity.class));
                         loadingDialog.dismissdialog();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(NewUserActivity.this, "Data Update Successfully", Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
