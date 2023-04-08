@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.sneproj.chameleon.databinding.ActivityEmailLoginBinding;
 import com.sneproj.chameleon.model.User;
 import com.sneproj.chameleon.utils.Constants;
+import com.sneva.easyprefs.EasyPrefs;
 
 public class EmailLoginActivity extends AppCompatActivity {
 
@@ -74,10 +75,11 @@ public class EmailLoginActivity extends AppCompatActivity {
                                     startActivity(new Intent(getApplicationContext(), ConfirmEmail.class));
 
                                 } else {
-
                                     dialog.dismissdialog();
-                                    startActivity(new Intent(EmailLoginActivity.this, MainActivity.class));
-                                    finish();
+                                    EasyPrefs.use().getBoolean("isNew", true);
+                                    Intent intent = new Intent(EmailLoginActivity.this, NewUserActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
                                 }
 
                             } else {

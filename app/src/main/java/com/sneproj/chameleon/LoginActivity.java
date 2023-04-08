@@ -3,6 +3,7 @@ package com.sneproj.chameleon;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -122,18 +123,8 @@ public class LoginActivity extends AppCompatActivity {
                                                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                                     startActivity(intent);
                                                                 } else {
-                                                                    snapshot.getRef().setValue(updateUser).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                            if (task.isSuccessful()) {
-                                                                                dialog.dismissdialog();
-                                                                                EasyPrefs.use().getBoolean("isNew", true);
-                                                                                Intent intent = new Intent(LoginActivity.this, NewUserActivity.class);
-                                                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                                                startActivity(intent);
-                                                                            }
-                                                                        }
-                                                                    });
+                                                                    dialog.dismissdialog();
+                                                                    Toast.makeText(LoginActivity.this, "Account does not exist!", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             }
 
@@ -201,18 +192,8 @@ public class LoginActivity extends AppCompatActivity {
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                     } else {
-                                        snapshot.getRef().setValue(updateUser).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    dialog.dismissdialog();
-                                                    EasyPrefs.use().getBoolean("isNew", true);
-                                                    Intent intent = new Intent(LoginActivity.this, NewUserActivity.class);
-                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                    startActivity(intent);
-                                                }
-                                            }
-                                        });
+                                        dialog.dismissdialog();
+                                        Toast.makeText(LoginActivity.this, "Account does not exist!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
 

@@ -198,9 +198,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if (snapshot.exists()) {
-//                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-//                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                        startActivity(intent);
                                         dialog.dismissdialog();
                                         Toast.makeText(RegisterActivity.this, "This Account Already exist", Toast.LENGTH_SHORT).show();
                                     } else {
