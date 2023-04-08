@@ -54,12 +54,32 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         tools:listitem="@layout/item_language_"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/Next"
         app:layout_constraintTop_toBottomOf="@+id/search" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/Next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="22dp"
+        android:fontFamily="@font/poppins_bold"
+        android:paddingVertical="13dp"
+        android:text="Continue"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:backgroundTint="#0073FF"
+        app:cornerRadius="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 
