@@ -45,12 +45,12 @@
             android:layout_alignParentLeft="true"
             app:rimage_corner_radius="4dp"
             android:src="@drawable/indian_flag"
-            android:id="@+id/langs" />
+            android:id="@+id/country" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/countStrikes"
+            android:id="@+id/name"
             android:textSize="12sp"
             android:text="Harsh"
             android:maxLines="1"

@@ -1,4 +1,4 @@
-package com.sneproj.chameleon;
+package com.sneproj.chameleon.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.smarteist.autoimageslider.SliderViewAdapter;
+import com.sneproj.chameleon.R;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.Holder> {
 

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="15dp"
+    android:elevation="5dp"
+    android:backgroundTint="@color/white"
+    android:background="@drawable/textbox"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.sneva.roundedview.RoundedImage
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:id="@+id/img"
+                android:src="@mipmap/ic_launcher"
+                app:rimage_oval="true" />
+
+            <com.sneva.roundedview.RoundedImage
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:id="@+id/presence"
+                android:src="#1AA800"
+                android:layout_gravity="bottom|right"
+                app:rimage_border_color="@color/white"
+                app:rimage_border_width="2dp"
+                app:rimage_oval="true" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <com.sneva.roundedview.RoundedImage
+                    android:layout_width="18dp"
+                    android:layout_height="15dp"
+                    android:scaleType="centerCrop"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    app:rimage_corner_radius="4dp"
+                    android:src="@drawable/indian_flag"
+                    android:id="@+id/langs" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/name"
+                    android:textSize="16sp"
+                    android:text="Harsh"
+                    android:maxLines="1"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#000"
+                    android:fontFamily="@font/poppins_bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:tint="#FFBF00"
+                    android:src="@drawable/rate" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ratings"
+                    android:textSize="14sp"
+                    android:text="4.95 (19)"
+                    android:maxLines="1"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="#707478"
+                    android:fontFamily="@font/poppins_medium" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/rate"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:tint="#94979A"
+            android:padding="3dp"
+            android:src="@drawable/rate_out" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bio"
+        android:textSize="16sp"
+        android:text="Hello there! i am Vivek from India. Hello there! i am Vivek from India. Hello there! i am Vivek from India. Hello there! i am Vivek from India. Hello there! i am Vivek from India."
+        android:maxLines="2"
+        android:layout_marginTop="15dp"
+        android:textColor="#707478"
+        android:fontFamily="@font/poppins_medium" />
+
+</LinearLayout>
