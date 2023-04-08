@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg_main"
     tools:context=".fragments.ExploreFragment">
 
@@ -48,7 +49,7 @@
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/down_chevron"
             android:textColor="#131313"
-            android:fontFamily="@font/poppins_medium" />
+            android:fontFamily="@font/poppins_bold" />
 
         <TextView
             android:id="@+id/native"
@@ -65,7 +66,7 @@
             android:drawablePadding="5dp"
             android:drawableRight="@drawable/down_chevron"
             android:textColor="#131313"
-            android:fontFamily="@font/poppins_medium" />
+            android:fontFamily="@font/poppins_bold" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -77,5 +78,32 @@
             android:src="@drawable/filter" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/newTeachHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="13dp"
+        android:gravity="center"
+        android:text="New Teachers"
+        android:layout_below="@id/box"
+        android:layout_marginHorizontal="15dp"
+        android:textColor="#131313"
+        android:fontFamily="@font/poppins_medium" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/newTeachHeading"
+        android:id="@+id/circuteach"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="13dp"
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_teachers_circular" />
+
+
 
 </RelativeLayout>
