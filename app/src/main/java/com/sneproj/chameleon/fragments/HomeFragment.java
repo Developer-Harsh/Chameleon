@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.sneproj.chameleon.R;
-import com.sneproj.chameleon.SliderAdapter;
+import com.sneproj.chameleon.adapter.SliderAdapter;
 import com.sneproj.chameleon.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
