@@ -116,6 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                         updateUser.number = "";
                                                         updateUser.nativeLang = "";
                                                         updateUser.location = "";
+                                                        updateUser.rank = "A1";
 
                                                         FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS).child(user.getUid()).addValueEventListener(new ValueEventListener() {
                                                             @Override
@@ -193,6 +194,7 @@ public class RegisterActivity extends AppCompatActivity {
                             updateUser.number = user.getPhoneNumber();
                             updateUser.nativeLang = "";
                             updateUser.location = "";
+                            updateUser.rank = "A1";
 
                             FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS).child(user.getUid()).addValueEventListener(new ValueEventListener() {
                                 @Override

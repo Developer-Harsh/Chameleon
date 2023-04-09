@@ -34,10 +34,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewUser2Activity extends AppCompatActivity {
-ActivityNewUser2Binding binding;
-ArrayList<LangModal> list;
-LanguageAdapter adapter;
-LoadingDialog dialog = new LoadingDialog();
+    ActivityNewUser2Binding binding;
+    ArrayList<LangModal> list;
+    LanguageAdapter adapter;
+    LoadingDialog dialog = new LoadingDialog();
+
     private DatabaseReference reference, dbref;
     private FirebaseDatabase database;
     FirebaseAuth auth;
@@ -69,17 +70,17 @@ LoadingDialog dialog = new LoadingDialog();
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         list.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
                             LangModal langModal = dataSnapshot.getValue(LangModal.class);
                             list.add(langModal);
 
                             dialog.dismissdialog();
-                    }
-                    binding.recyclerview.setHasFixedSize(true);
-                    binding.recyclerview.setLayoutManager(new LinearLayoutManager(NewUser2Activity.this));
-                    adapter = new LanguageAdapter( NewUser2Activity.this, list);
-                    binding.recyclerview.setAdapter(adapter);
+                        }
+                        binding.recyclerview.setHasFixedSize(true);
+                        binding.recyclerview.setLayoutManager(new LinearLayoutManager(NewUser2Activity.this));
+                        adapter = new LanguageAdapter(NewUser2Activity.this, list);
+                        binding.recyclerview.setAdapter(adapter);
 
                     }
 
@@ -97,12 +98,11 @@ LoadingDialog dialog = new LoadingDialog();
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                filter(charSequence.toString());
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                filter(editable.toString());
 
             }
         });
@@ -110,7 +110,7 @@ LoadingDialog dialog = new LoadingDialog();
         binding.Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (adapter.getSelected() != null){
+                if (adapter.getSelected() != null) {
                     String langname = adapter.getSelected().getName().toString();
         reference.child("LearnLang").child(langname).setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
     @Override
@@ -125,7 +125,7 @@ LoadingDialog dialog = new LoadingDialog();
         Toast.makeText(NewUser2Activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 });
-                }else{
+                } else {
                     Toast.makeText(NewUser2Activity.this, "No Selection", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -135,8 +135,8 @@ LoadingDialog dialog = new LoadingDialog();
 
     private void filter(String newText) {
         ArrayList<LangModal> filteredList = new ArrayList<>();
-        for (LangModal singleNote : list){
-            if (singleNote.getName().toLowerCase().contains(newText.toLowerCase())){
+        for (LangModal singleNote : list) {
+            if (singleNote.getName().toLowerCase().contains(newText.toLowerCase())) {
                 filteredList.add(singleNote);
             }
         }

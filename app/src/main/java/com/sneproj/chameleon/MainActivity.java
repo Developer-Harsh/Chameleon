@@ -7,10 +7,15 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sneproj.chameleon.databinding.ActivityMainBinding;
 import com.sneproj.chameleon.fragments.ExploreFragment;
 import com.sneproj.chameleon.fragments.HamariFragment;
 import com.sneproj.chameleon.fragments.HomeFragment;
+import com.sneproj.chameleon.utils.Constants;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,4 +62,36 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
             };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_PRESENCE)
+                .child(FirebaseAuth.getInstance().getUid())
+                .setValue("online");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_PRESENCE)
+                .child(FirebaseAuth.getInstance().getUid())
+                .setValue("online");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_PRESENCE)
+                .child(FirebaseAuth.getInstance().getUid())
+                .removeValue();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_PRESENCE)
+                .child(FirebaseAuth.getInstance().getUid())
+                .removeValue();
+    }
 }
