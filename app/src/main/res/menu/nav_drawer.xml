@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/edit_profile"
+        android:title="Edit Profile"
+        android:icon="@drawable/edit_icon"
+       />
+
+    <item android:id="@+id/subsctiption"
+        android:title="Subscriptions"
+        android:icon="@drawable/subsciption_icon"
+      />
+
+    <item android:id="@+id/histroy"
+        android:title="Transaction History"
+        android:icon="@drawable/transaction_icon"
+        android:iconTint="@color/purple_200"
+        />
+
+    <item android:id="@+id/refer"
+        android:title="Refer a friend"
+        android:icon="@drawable/gift_icon"
+   />
+
+    <item android:id="@+id/wishlist"
+        android:title="Wihslist"
+        android:icon="@drawable/star_icon"/>
+
+    <item android:id="@+id/help"
+        android:title="Help"
+        android:icon="@drawable/help_icon"/>
+
+    <item android:id="@+id/share_profile"
+        android:title="Share my profile"
+        android:icon="@drawable/star_icon"/>
+
+    <item android:id="@+id/themes"
+        android:title="Themes"
+        android:icon="@drawable/theme"/>
+
+    <item android:id="@+id/logout"
+        android:title="Logout"
+        android:icon="@drawable/logout_icon"/>
+
+
+
+
+
+
+</menu>

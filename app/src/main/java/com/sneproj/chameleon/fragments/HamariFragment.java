@@ -1,16 +1,24 @@
 package com.sneproj.chameleon.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +35,8 @@ import com.sneproj.chameleon.databinding.FragmentHamariBinding;
 import com.sneproj.chameleon.model.User;
 import com.sneproj.chameleon.utils.Constants;
 
+import java.util.Objects;
+
 public class HamariFragment extends Fragment {
 
     FragmentHamariBinding binding;
@@ -36,6 +46,10 @@ public class HamariFragment extends Fragment {
     FirebaseAuth auth;
     FirebaseUser user;
     LoadingDialog loadingDialog = new LoadingDialog();
+    NavController navController;
+    private ActionBarDrawerToggle toggle;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +62,63 @@ public class HamariFragment extends Fragment {
         reference = FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS).child(user.getUid());
 
         getUserData();
+
+        toggle = new ActionBarDrawerToggle((Activity) requireContext(), binding.drawerLayout,R.string.start, R.string.close);
+        binding.drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+
+
+
+        binding.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                    binding.drawerLayout.closeDrawer(GravityCompat.END);
+                } else {
+                    binding.drawerLayout.openDrawer(GravityCompat.END);
+                }
+            }
+        });
+
+
+        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.edit_profile:
+                        Toast.makeText(requireContext(), "edit", Toast.LENGTH_SHORT).show();
+                        break;
+
+                }
+
+                return true;
+            }
+        });
+        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.edit_profile:
+                        Toast.makeText(requireContext(), "edit", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.subsctiption:
+                        Toast.makeText(requireContext(), "edit", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.histroy:
+                        Toast.makeText(requireContext(), "edit", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.refer:
+                        Toast.makeText(requireContext(), "edit", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+
+                binding.drawerLayout.closeDrawer(GravityCompat.END);
+                return true;
+            }
+        });
+
        return binding.getRoot();
     }
 
@@ -76,4 +147,13 @@ public class HamariFragment extends Fragment {
         });
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(toggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return true;
+    }
+
 }
