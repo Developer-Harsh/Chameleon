@@ -55,7 +55,6 @@ public class HomeFragment extends Fragment {
         binding.teachers.setAdapter(adapter);
 
         readAdhyapak();
-        readLanguage();
 
         binding.instaLesson.setOnClickListener(new View.OnClickListener() {
             @Override
