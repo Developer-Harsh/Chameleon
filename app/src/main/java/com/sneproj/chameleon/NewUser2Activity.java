@@ -43,6 +43,7 @@ public class NewUser2Activity extends AppCompatActivity {
     private FirebaseDatabase database;
     FirebaseAuth auth;
     FirebaseUser user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +73,11 @@ public class NewUser2Activity extends AppCompatActivity {
                         list.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
-                            LangModal langModal = dataSnapshot.getValue(LangModal.class);
+                            LangModal langModal = new LangModal();
+                            langModal.setName(dataSnapshot.child("name").getValue(String.class));
+                            langModal.setImage(dataSnapshot.child("image").getValue(String.class));
+                            langModal.setId(dataSnapshot.getKey());
+
                             list.add(langModal);
 
                             dialog.dismissdialog();
@@ -111,20 +116,20 @@ public class NewUser2Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (adapter.getSelected() != null) {
-                    String langname = adapter.getSelected().getName().toString();
-        reference.child("LearnLang").child(langname).setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
-    @Override
-    public void onComplete(@NonNull Task<Void> task) {
-        if (task.isSuccessful()){
-            startActivity(new Intent(NewUser2Activity.this, MainActivity.class));
-        }
-    }
-}).addOnFailureListener(new OnFailureListener() {
-    @Override
-    public void onFailure(@NonNull Exception e) {
-        Toast.makeText(NewUser2Activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-    }
-});
+                    String langname = adapter.getSelected().getId().toString();
+                    reference.child("LearnLang").child(langname).setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                startActivity(new Intent(NewUser2Activity.this, MainActivity.class));
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(NewUser2Activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     Toast.makeText(NewUser2Activity.this, "No Selection", Toast.LENGTH_SHORT).show();
                 }
