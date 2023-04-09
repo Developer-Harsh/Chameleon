@@ -56,51 +56,7 @@ public class EmailLoginActivity extends AppCompatActivity {
         binding.forgetPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText resetPasswordEmail = new EditText(v.getContext());
-                AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
-
-                // Dialogbox visuals
-                passwordResetDialog.setTitle("Reset Password ?");
-                passwordResetDialog.setMessage("Enter Email To Receive Reset Link.");
-                resetPasswordEmail.setHint("Enter Email Here");
-                passwordResetDialog.setView(resetPasswordEmail);
-                // if OK
-                passwordResetDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String recovery_email = resetPasswordEmail.getText().toString();
-
-                        if (TextUtils.isEmpty(recovery_email))
-                        {
-                            resetPasswordEmail.setError("Invalid Email");
-                            Toast.makeText(EmailLoginActivity.this, "Invalid Email", Toast.LENGTH_LONG).show();
-                            return;
-                        } else {
-
-                            auth.sendPasswordResetEmail(recovery_email).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-
-                                    Toast.makeText(EmailLoginActivity.this, "Reset Password Email Sent!", Toast.LENGTH_LONG).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(EmailLoginActivity.this, "Password Reset Failure - Invalid Email", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                    }
-                });
-                // If CANCEL
-                passwordResetDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(EmailLoginActivity.this, "Password Reset Failed", Toast.LENGTH_LONG).show();
-                    }
-                });
-                passwordResetDialog.create().show();
+startActivity(new Intent(EmailLoginActivity.this, ForgetPassActivitty.class));
             }
         });
         binding.submitBtn.setOnClickListener(new View.OnClickListener() {

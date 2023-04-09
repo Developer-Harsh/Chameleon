@@ -91,7 +91,7 @@ public class NewUserActivity extends AppCompatActivity {
                 });
 
         reference
-                .child("image")
+                .child("profile")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/textSignIn"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    tools:context=".ForgetPassActivitty">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="15dp"
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/mainColor"
+        />
+
+    <TextView
+        android:id="@+id/textEnterCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forget Password"
+        android:textColor="@color/black"
+        android:textSize="23sp"
+        android:fontFamily="@font/poppins_bold"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/textbox"
+        android:backgroundTint="@color/white"
+        android:drawableLeft="@drawable/email"
+        android:drawablePadding="10dp"
+        android:drawableTint="#66676A"
+        android:fontFamily="@font/poppins_medium"
+        android:hint="Email address"
+        android:padding="15dp"
+        android:textColor="#1A1B1E"
+        android:textColorHint="#66676A"
+        android:textSize="14sp"
+        app:elevation="10dp"
+
+
+        app:layout_constraintEnd_toEndOf="@+id/textEnterCode"
+        app:layout_constraintStart_toStartOf="@+id/textEnterCode"
+        app:layout_constraintTop_toBottomOf="@+id/textEnterCode" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/reset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="callResendCode"
+        android:paddingVertical="13dp"
+        android:text="Reset Password"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:layout_marginHorizontal="30dp"
+        android:textSize="16sp"
+        android:fontFamily="@font/poppins_bold"
+        app:backgroundTint="#4965FF"
+        android:layout_marginTop="15dp"
+        app:cornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/signing"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:elevation="12dp"
+        android:paddingVertical="13dp"
+        android:text="Go to Sign In"
+        android:textAllCaps="false"
+        android:fontFamily="@font/poppins_bold"
+        android:layout_marginTop="15dp"
+        android:textColor="#1E2023"
+        android:textSize="16sp"
+        app:backgroundTint="#fff"
+        app:cornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reset" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
