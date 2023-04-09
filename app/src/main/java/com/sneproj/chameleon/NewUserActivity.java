@@ -64,28 +64,20 @@ public class NewUserActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(NewUserActivity.this.getColor(R.color.bg_main));
             getWindow().setNavigationBarColor(NewUserActivity.this.getColor(R.color.bg_main));
         }
+
+        loadingDialog.showdialog(NewUserActivity.this);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         storagereference = FirebaseStorage.getInstance().getReference();
+        reference = FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS).child(user.getUid());
 
-        FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS).child(user.getUid())
-                .addValueEventListener(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
                             usermodal = snapshot.getValue(User.class);
-                            String loc = usermodal.location;
-                            if (loc != null){
-                                startActivity(new Intent(NewUserActivity.this, MainActivity.class));
-                            }
-                            String lang = usermodal.nativeLang;
-                            if (lang != null){
-                                startActivity(new Intent(NewUserActivity.this, MainActivity.class));
-                            }
-                            image = usermodal.profile;
-
-                            Glide.with(NewUserActivity.this).load(usermodal.profile).into(binding.userimage);
                             binding.name.setText(usermodal.name);
+                            loadingDialog.dismissdialog();
                         } else {
                             Toast.makeText(NewUserActivity.this, "Not available", Toast.LENGTH_SHORT).show();
                         }
@@ -97,6 +89,31 @@ public class NewUserActivity extends AppCompatActivity {
 
                     }
                 });
+
+        reference
+                .child("image")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            image = snapshot.getValue(String.class);
+                            Glide.with(NewUserActivity.this).load(image).into(binding.userimage);
+                        } else {
+                            Glide.with(NewUserActivity.this).load(R.drawable.logo).into(binding.userimage);
+                        }
+                        loadingDialog.dismissdialog();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
+
+
 
         binding.userimage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +164,11 @@ public class NewUserActivity extends AppCompatActivity {
         } else if (lang.equals("Select Language")) {
             Toast.makeText(this, "Required Language", Toast.LENGTH_SHORT).show();
         } else if (bitmap == null) {
-            UpdateData(image);
+            if (image != null){
+                UpdateData(image);
+            }else{
+                Toast.makeText(this, "Image Required", Toast.LENGTH_SHORT).show();
+            }
         } else {
             UploadData();
         }
@@ -210,7 +231,7 @@ public class NewUserActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Object o) {
 
-                        startActivity(new Intent(NewUserActivity.this, MainActivity.class));
+                        startActivity(new Intent(NewUserActivity.this, NewUser2Activity.class));
                         loadingDialog.dismissdialog();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -233,7 +254,6 @@ public class NewUserActivity extends AppCompatActivity {
             if (requestCode == SELECT_PICTURE) {
                 // Get the url of the image from data
                 Uri selectedImageUri = data.getData();
-
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
                     binding.userimage.setImageBitmap(bitmap);

@@ -13,10 +13,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.sneproj.chameleon.adapter.LanguageAdapter;
 import com.sneproj.chameleon.databinding.ActivityNewUser2Binding;
 import com.sneproj.chameleon.model.LangModal;
@@ -31,6 +38,10 @@ ActivityNewUser2Binding binding;
 ArrayList<LangModal> list;
 LanguageAdapter adapter;
 LoadingDialog dialog = new LoadingDialog();
+    private DatabaseReference reference, dbref;
+    private FirebaseDatabase database;
+    FirebaseAuth auth;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +53,13 @@ LoadingDialog dialog = new LoadingDialog();
             getWindow().setStatusBarColor(NewUser2Activity.this.getColor(R.color.bg_main));
             getWindow().setNavigationBarColor(NewUser2Activity.this.getColor(R.color.bg_main));
         }
+
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS).child(user.getUid());
+
+
         list = new ArrayList<>();
 
         dialog.showdialog(this);
@@ -93,7 +111,20 @@ LoadingDialog dialog = new LoadingDialog();
             @Override
             public void onClick(View view) {
                 if (adapter.getSelected() != null){
-                    Toast.makeText(NewUser2Activity.this, adapter.getSelected().getName().toString(), Toast.LENGTH_SHORT).show();
+                    String langname = adapter.getSelected().getName().toString();
+        reference.child("LearnLang").child(langname).setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+    @Override
+    public void onComplete(@NonNull Task<Void> task) {
+        if (task.isSuccessful()){
+            startActivity(new Intent(NewUser2Activity.this, MainActivity.class));
+        }
+    }
+}).addOnFailureListener(new OnFailureListener() {
+    @Override
+    public void onFailure(@NonNull Exception e) {
+        Toast.makeText(NewUser2Activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+});
                 }else{
                     Toast.makeText(NewUser2Activity.this, "No Selection", Toast.LENGTH_SHORT).show();
                 }

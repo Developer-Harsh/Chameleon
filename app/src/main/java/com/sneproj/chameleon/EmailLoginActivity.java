@@ -1,15 +1,21 @@
 package com.sneproj.chameleon;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +53,56 @@ public class EmailLoginActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        binding.forgetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText resetPasswordEmail = new EditText(v.getContext());
+                AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
+
+                // Dialogbox visuals
+                passwordResetDialog.setTitle("Reset Password ?");
+                passwordResetDialog.setMessage("Enter Email To Receive Reset Link.");
+                resetPasswordEmail.setHint("Enter Email Here");
+                passwordResetDialog.setView(resetPasswordEmail);
+                // if OK
+                passwordResetDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String recovery_email = resetPasswordEmail.getText().toString();
+
+                        if (TextUtils.isEmpty(recovery_email))
+                        {
+                            resetPasswordEmail.setError("Invalid Email");
+                            Toast.makeText(EmailLoginActivity.this, "Invalid Email", Toast.LENGTH_LONG).show();
+                            return;
+                        } else {
+
+                            auth.sendPasswordResetEmail(recovery_email).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+
+                                    Toast.makeText(EmailLoginActivity.this, "Reset Password Email Sent!", Toast.LENGTH_LONG).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(EmailLoginActivity.this, "Password Reset Failure - Invalid Email", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+                });
+                // If CANCEL
+                passwordResetDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(EmailLoginActivity.this, "Password Reset Failed", Toast.LENGTH_LONG).show();
+                    }
+                });
+                passwordResetDialog.create().show();
+            }
+        });
         binding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
