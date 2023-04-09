@@ -17,6 +17,15 @@
         android:theme="@style/Theme.Chameleon"
         tools:targetApi="31">
         <activity
+            android:name=".MessagingBoardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StrikesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RandomMatchActivity"
+            android:exported="false" />
+        <activity
             android:name=".ForgetPassActivitty"
             android:exported="false">
             <meta-data

@@ -80,6 +80,7 @@ public class EmailSignupActivity extends AppCompatActivity {
                                 updateUser.number = task.getResult().getUser().getPhoneNumber();
                                 updateUser.nativeLang = "";
                                 updateUser.location = "";
+                                updateUser.rank = "A1";
 
 //                                    String uid = task.getResult().getUser().getp;
 
