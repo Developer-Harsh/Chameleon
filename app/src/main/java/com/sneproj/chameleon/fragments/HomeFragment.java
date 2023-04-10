@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +27,7 @@ import com.sneproj.chameleon.StrikesActivity;
 import com.sneproj.chameleon.adapter.CircularTeacherAdapter;
 import com.sneproj.chameleon.adapter.SliderAdapter;
 import com.sneproj.chameleon.databinding.FragmentHomeBinding;
+import com.sneproj.chameleon.model.LangModal;
 import com.sneproj.chameleon.model.User;
 import com.sneproj.chameleon.utils.Constants;
 
@@ -98,7 +100,49 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        readLang();
+
         return  binding.getRoot();
+    }
+
+    private void readLang() {
+        FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS)
+                .child(FirebaseAuth.getInstance().getUid())
+                .child("LearnLang")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                FirebaseDatabase.getInstance().getReference().child("lang")
+                                        .child(dataSnapshot.getKey())
+                                        .addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                if (snapshot.exists()) {
+                                                    LangModal langModal = new LangModal();
+                                                    langModal.setName(dataSnapshot.child("name").getValue(String.class));
+                                                    langModal.setImage(dataSnapshot.child("image").getValue(String.class));
+                                                    langModal.setId(dataSnapshot.getKey());
+
+                                                    Glide.with(getContext()).load(langModal.getImage()).into(binding.langs);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 
     private void readAdhyapak() {
