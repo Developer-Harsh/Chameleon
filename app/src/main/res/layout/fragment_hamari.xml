@@ -8,18 +8,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/navigation_view"
-        app:menu="@menu/nav_drawer"
-        android:fitsSystemWindows="true"
-        app:itemTextAppearance="?android:attr/textAppearance"
-        app:headerLayout="@layout/header_layout"
-        android:layout_gravity="end"/>
-
-
-
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -27,6 +15,7 @@
     android:orientation="vertical"
     android:background="@color/bg_main"
     tools:context=".fragments.HamariFragment">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -237,4 +226,18 @@
 
 </LinearLayout>
 
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/navigation_view"
+        app:menu="@menu/nav_drawer"
+        android:fitsSystemWindows="true"
+        android:background="@color/bg_main"
+        app:itemTextAppearance="?android:attr/textAppearance"
+        app:headerLayout="@layout/header_layout"
+        android:layout_gravity="end"/>
+
+
+
 </androidx.drawerlayout.widget.DrawerLayout>
+
