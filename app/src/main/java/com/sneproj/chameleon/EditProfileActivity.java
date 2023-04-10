@@ -86,7 +86,7 @@ public class EditProfileActivity extends AppCompatActivity {
         binding.AboutMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+startActivity(new Intent(EditProfileActivity.this, AboutMeActivity.class));
             }
         });
 

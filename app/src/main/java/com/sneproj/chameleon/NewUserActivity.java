@@ -42,7 +42,7 @@ import java.util.HashMap;
 public class NewUserActivity extends AppCompatActivity {
     ActivityNewUserBinding binding;
     private static int SELECT_PICTURE = 1;
-    private String name, image, country, lang, downloadurl;
+    private String name, image, country, lang, downloadurl, countrycode;
     Bitmap bitmap = null;
     LoadingDialog loadingDialog = new LoadingDialog();
     private DatabaseReference reference, dbref;
@@ -90,7 +90,9 @@ public class NewUserActivity extends AppCompatActivity {
                     }
                 });
 
-        reference.child("profile").addValueEventListener(new ValueEventListener() {
+        reference
+                .child("profile")
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
@@ -146,6 +148,7 @@ public class NewUserActivity extends AppCompatActivity {
             @Override
             public void onCountrySelected(Country selectedCountry) {
                 country = selectedCountry.getName().toString();
+                countrycode = selectedCountry.getIso();
             }
         });
 
@@ -221,6 +224,7 @@ public class NewUserActivity extends AppCompatActivity {
         hp.put("location", country);
         hp.put("nativeLang", lang);
         hp.put("profile", downloadurl);
+        hp.put("countrycode", countrycode);
 
 
         FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS)
