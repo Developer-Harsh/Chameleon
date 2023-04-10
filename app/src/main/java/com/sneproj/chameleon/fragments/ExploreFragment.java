@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -21,6 +23,7 @@ import com.sneproj.chameleon.R;
 import com.sneproj.chameleon.adapter.CircularTeacherAdapter;
 import com.sneproj.chameleon.adapter.RateTeacherAdapter;
 import com.sneproj.chameleon.databinding.FragmentExploreBinding;
+import com.sneproj.chameleon.model.LangModal;
 import com.sneproj.chameleon.model.User;
 import com.sneproj.chameleon.utils.Constants;
 

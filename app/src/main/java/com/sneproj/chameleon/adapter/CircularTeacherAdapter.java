@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sneproj.chameleon.R;
 import com.sneproj.chameleon.databinding.ItemTeachersCircularBinding;
+import com.sneproj.chameleon.model.LangModal;
 import com.sneproj.chameleon.model.User;
 import com.sneproj.chameleon.utils.Constants;
 
@@ -85,6 +86,7 @@ public class CircularTeacherAdapter extends RecyclerView.Adapter<CircularTeacher
 
                         }
                     });
+
         }
     }
 }

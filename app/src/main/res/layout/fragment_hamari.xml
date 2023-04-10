@@ -75,6 +75,10 @@
         <LinearLayout
             android:layout_weight="1"
             android:layout_width="0dp"
+            android:paddingVertical="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:backgroundTint="@color/white"
+            android:background="@drawable/textbox"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
@@ -207,20 +211,91 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/languages"
-        android:orientation="horizontal"
-        android:layout_marginTop="15dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    <com.sneva.roundedview.RoundedImage
+        android:layout_width="45dp"
+        android:layout_height="35dp"
+        android:scaleType="centerCrop"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="13dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        app:rimage_corner_radius="8dp"
+        android:src="@drawable/indian_flag"
+        android:id="@+id/langs" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:background="@drawable/textbox"
+        android:padding="10dp"
+        android:layout_marginHorizontal="35dp"
+        android:layout_marginTop="15dp"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F6F6F6"
+            android:background="@drawable/textbox"
+            android:padding="13dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:text="1-on-1"
+                android:drawableLeft="@drawable/person"
+                android:textColor="#2E3032"
+                android:drawableTint="#2E3032"
+                android:fontFamily="@font/poppins_medium" />
+
+            <TextView
+                android:id="@+id/minutes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:text="0/0 minute"
+                android:textColor="#2E3032"
+                android:fontFamily="@font/poppins_bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
+                android:text="left this month"
+                android:textColor="#84888C"
+                android:fontFamily="@font/poppins_medium" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
+                android:text="Reset Weekly 5:30 AM tommorow"
+                android:textColor="#84888C"
+                android:paddingVertical="10dp"
+                android:fontFamily="@font/poppins_medium" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/purchase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:text="Purchase"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_bold"
+                app:backgroundTint="#4965FF"
+                app:cornerRadius="16dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
