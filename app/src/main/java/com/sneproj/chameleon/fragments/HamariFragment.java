@@ -34,6 +34,7 @@ import com.sneproj.chameleon.EditProfileActivity;
 import com.sneproj.chameleon.LoadingDialog;
 import com.sneproj.chameleon.NewUserActivity;
 import com.sneproj.chameleon.R;
+import com.sneproj.chameleon.SubscriptionActivity;
 import com.sneproj.chameleon.databinding.FragmentHamariBinding;
 import com.sneproj.chameleon.model.User;
 import com.sneproj.chameleon.utils.Constants;
@@ -138,7 +139,7 @@ public class HamariFragment extends Fragment implements NavigationView.OnNavigat
                 startActivity(new Intent(requireContext(), EditProfileActivity.class));
                 break;
             case R.id.subsctiption:
-                Toast.makeText(requireContext(), "Edit Profile", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(requireContext(), SubscriptionActivity.class));
                 break;
 
             case R.id.histroy:

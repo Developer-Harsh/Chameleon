@@ -97,6 +97,13 @@ public class AboutMeActivity extends AppCompatActivity {
             }
         });
 
+        binding.back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
 
         String[] languages = getResources().getStringArray(R.array.languages);
 

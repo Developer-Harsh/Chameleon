@@ -118,6 +118,13 @@ startActivity(new Intent(EditProfileActivity.this, AboutMeActivity.class));
 
             }
         });
+
+        binding.back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
     private void CheckValidation() {
         name = binding.editname.getText().toString();
