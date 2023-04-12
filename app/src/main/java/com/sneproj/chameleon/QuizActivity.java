@@ -27,7 +27,7 @@ public class QuizActivity extends AppCompatActivity {
         binding.Continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(QuizActivity.this, MainActivity.class));
+                startActivity(new Intent(QuizActivity.this, PlayQuizActivity.class));
             }
         });
         binding.skip.setOnClickListener(new View.OnClickListener() {
@@ -36,7 +36,5 @@ public class QuizActivity extends AppCompatActivity {
 startActivity(new Intent(QuizActivity.this, MainActivity.class));
             }
         });
-
-
     }
 }
