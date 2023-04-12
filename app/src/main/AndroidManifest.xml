@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Chameleon"
         tools:targetApi="31">
         <activity
+            android:name=".MessengerActivity"
+            android:exported="false" />
+        <activity
             android:name=".WishlistActivity"
             android:exported="false">
             <meta-data
