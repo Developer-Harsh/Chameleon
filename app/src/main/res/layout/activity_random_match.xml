@@ -4,9 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_main"
     tools:context=".RandomMatchActivity">
 
     <ImageView
+        android:id="@+id/back"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_margin="15dp"
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/mainColor"
+        />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        app:civ_border_color="@color/white"
+        app:civ_border_width="2dp"
         android:id="@+id/personMy"
         android:layout_width="120dp"
         android:layout_height="120dp"
@@ -14,9 +28,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:src="@tools:sample/avatars" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        app:civ_border_color="@color/white"
+        app:civ_border_width="2dp"
         android:id="@+id/personOther"
         android:layout_width="120dp"
         android:layout_height="120dp"
@@ -24,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/textView5"
@@ -32,6 +48,8 @@
         android:layout_height="wrap_content"
         android:text="Matching..."
         android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#000"
         app:layout_constraintBottom_toTopOf="@+id/personOther"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
