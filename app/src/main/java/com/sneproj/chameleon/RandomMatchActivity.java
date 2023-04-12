@@ -3,6 +3,7 @@ package com.sneproj.chameleon;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
@@ -31,6 +32,14 @@ public class RandomMatchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityRandomMatchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        getSupportActionBar().hide();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(RandomMatchActivity.this.getColor(R.color.bg_main));
+            getWindow().setNavigationBarColor(RandomMatchActivity.this.getColor(R.color.bg_main));
+        }
+
 
         username = FirebaseAuth.getInstance().getUid();
 
