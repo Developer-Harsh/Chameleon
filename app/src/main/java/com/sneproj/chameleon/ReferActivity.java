@@ -14,8 +14,8 @@ public class ReferActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().setStatusBarColor(ReferActivity.this.getColor(R.color.white));
-            getWindow().setNavigationBarColor(ReferActivity.this.getColor(R.color.white));
+            getWindow().setStatusBarColor(ReferActivity.this.getColor(R.color.bg_main));
+            getWindow().setNavigationBarColor(ReferActivity.this.getColor(R.color.bg_main));
         }
     }
 }

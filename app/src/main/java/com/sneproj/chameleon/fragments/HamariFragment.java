@@ -88,16 +88,10 @@ public class HamariFragment extends Fragment implements NavigationView.OnNavigat
         getUserData();
 
 
-
-
         toggle = new ActionBarDrawerToggle((Activity) requireContext(), binding.drawerLayout,R.string.start, R.string.close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         binding.navigationView.setNavigationItemSelectedListener(this);
-
-
-
-
 
         binding.menu.setOnClickListener(new View.OnClickListener() {
             @Override

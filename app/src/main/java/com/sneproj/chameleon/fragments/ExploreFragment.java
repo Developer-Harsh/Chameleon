@@ -86,6 +86,8 @@ public class ExploreFragment extends Fragment {
             }
         });
 
+
+
         return binding.getRoot();
     }
 
