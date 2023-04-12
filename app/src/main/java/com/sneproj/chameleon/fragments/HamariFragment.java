@@ -1,11 +1,17 @@
 package com.sneproj.chameleon.fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -19,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,14 +37,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.sneproj.chameleon.BuildConfig;
 import com.sneproj.chameleon.EditProfileActivity;
 import com.sneproj.chameleon.LoadingDialog;
+import com.sneproj.chameleon.LoginActivity;
 import com.sneproj.chameleon.NewUserActivity;
 import com.sneproj.chameleon.R;
 import com.sneproj.chameleon.ReferActivity;
 import com.sneproj.chameleon.SubscriptionActivity;
 import com.sneproj.chameleon.TransactionActivity;
+import com.sneproj.chameleon.WishlistActivity;
 import com.sneproj.chameleon.databinding.FragmentHamariBinding;
+import com.sneproj.chameleon.databinding.LogoutdialogBinding;
 import com.sneproj.chameleon.model.User;
 import com.sneproj.chameleon.utils.Constants;
 
@@ -54,6 +65,13 @@ public class HamariFragment extends Fragment implements NavigationView.OnNavigat
     LoadingDialog loadingDialog = new LoadingDialog();
     NavController navController;
     private ActionBarDrawerToggle toggle;
+
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private int checkedItem;
+    private String selected;
+
+    private final String CHECKITEM = "check_item";
 
 
 
@@ -95,7 +113,22 @@ public class HamariFragment extends Fragment implements NavigationView.OnNavigat
            binding.navigationView.setNavigationItemSelectedListener(this);
 
 
-       return binding.getRoot();
+        sharedPreferences= getActivity().getSharedPreferences("themes", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        switch (getCheckedItem()){
+            case 0:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case 1:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case 2:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+        }
+
+        return binding.getRoot();
 
 }
 
@@ -150,22 +183,110 @@ public class HamariFragment extends Fragment implements NavigationView.OnNavigat
                 startActivity(new Intent(requireContext(), ReferActivity.class));
                 break;
             case R.id.wishlist:
-                Toast.makeText(requireContext(), "Edit Profile", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(requireContext(), WishlistActivity.class));
                 break;
             case R.id.themes:
-                Toast.makeText(requireContext(), "Edit Profile", Toast.LENGTH_SHORT).show();
+                ShowTheme();
                 break;
             case R.id.help:
-                Toast.makeText(requireContext(), "Edit Profile", Toast.LENGTH_SHORT).show();
+                String url = "https://support.google.com/";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
                 break;
             case R.id.share_profile:
-                Toast.makeText(requireContext(), "Edit Profile", Toast.LENGTH_SHORT).show();
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT,
+                        "Hey check out my app at: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID);
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
                 break;
             case R.id.logout:
-                Toast.makeText(requireContext(), "Edit Profile", Toast.LENGTH_SHORT).show();
+                        LogoutdialogBinding binding;
+                        binding = LogoutdialogBinding.inflate(getLayoutInflater());
+
+                        AlertDialog delete_dialog = new AlertDialog.Builder(requireContext())
+                                .setCancelable(false)
+                                .setView(binding.getRoot()).create();
+
+
+                        binding.cancelButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                delete_dialog.cancel();
+
+                            }
+                        });
+
+                        binding.Logoutbtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                auth.signOut();
+                                Intent intent = new Intent(requireContext(), LoginActivity.class);
+                                startActivity(intent);
+                                  getActivity().finish();
+                            }
+                        });
+
+                        delete_dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        delete_dialog.show();
+
                 break;
         }
+        binding.drawerLayout.closeDrawer(GravityCompat.END);
         return true;
+    }
+
+    private int getCheckedItem(){
+        return sharedPreferences.getInt(CHECKITEM,0);
+
+    }
+    private void setCheckedItem(int i){
+        editor.putInt(CHECKITEM, i);
+        editor.apply();
+    }
+
+    private void ShowTheme() {
+        String[] themes= this.getResources().getStringArray(R.array.theme);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
+        builder.setTitle("Select Themes");
+        builder.setSingleChoiceItems(R.array.theme, getCheckedItem(), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                selected = themes[i];
+                checkedItem = i;
+            }
+        });
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (selected == null){
+                    selected = themes[i];
+                    checkedItem = i;
+                }
+                switch (selected){
+                    case "System Default":
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                        break;
+                    case "Dark":
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        break;
+                    case "Light":
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        break;
+                }
+                setCheckedItem(checkedItem);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 

@@ -96,7 +96,8 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:keepScreenOn="false">
+            android:scrollbars="none"
+     >
 
 
             <LinearLayout
@@ -129,14 +130,14 @@
                         android:paddingBottom="30dp">
 
                         <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_margin="15dp"
-                            android:src="@drawable/profile"
+                            android:src="@drawable/referinvite"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:tint="@color/mainColor" />
+                           />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -195,10 +196,10 @@
                             android:layout_height="35dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_margin="15dp"
-                            android:src="@drawable/profile"
+                            android:src="@drawable/referjoin"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:tint="@color/mainColor" />
+                        />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -257,10 +258,9 @@
                             android:layout_height="35dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_margin="15dp"
-                            android:src="@drawable/profile"
+                            android:src="@drawable/referpurchase"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:tint="@color/mainColor" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -319,10 +319,10 @@
                             android:layout_height="35dp"
                             android:layout_gravity="center_horizontal"
                             android:layout_margin="15dp"
-                            android:src="@drawable/profile"
+                            android:src="@drawable/referearn"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:tint="@color/mainColor" />
+                             />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -376,7 +376,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/subscribe"
+        android:id="@+id/share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
