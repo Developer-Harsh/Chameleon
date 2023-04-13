@@ -1,6 +1,7 @@
 package com.sneproj.chameleon.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sneproj.chameleon.ProfileActivity;
 import com.sneproj.chameleon.R;
 import com.sneproj.chameleon.databinding.ItemTeachersCircularBinding;
 import com.sneproj.chameleon.model.LangModal;
@@ -42,6 +44,20 @@ public class CircularTeacherAdapter extends RecyclerView.Adapter<CircularTeacher
     @Override
     public void onBindViewHolder(CircularTeacherAdapter.ViewHolder holder, int position) {
         holder.set(userList.get(position));
+        User user = userList.get(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra("name", user.name);
+                intent.putExtra("profile", user.profile);
+                intent.putExtra("uname", user.uname);
+                intent.putExtra("bio", user.bio);
+                intent.putExtra("email", user.email);
+                intent.putExtra("location", user.location);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
