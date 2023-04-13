@@ -200,7 +200,7 @@ startActivity(new Intent(EditProfileActivity.this, AboutMeActivity.class));
                 .addOnSuccessListener(new OnSuccessListener() {
                     @Override
                     public void onSuccess(Object o) {
-                        startActivity(new Intent(EditProfileActivity.this, NewUser2Activity.class));
+
                         loadingDialog.dismissdialog();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
