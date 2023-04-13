@@ -3,6 +3,7 @@ package com.sneproj.chameleon;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,7 +29,8 @@ public class PlayQuizActivity extends AppCompatActivity implements View.OnClickL
     int index = 0;
     QuestionModal questionModal;
     private boolean textViewClicked = false;
-
+    LoadingDialog dialog = new LoadingDialog();
+    int correctAnswer = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,27 +45,43 @@ public class PlayQuizActivity extends AppCompatActivity implements View.OnClickL
 
         list = new ArrayList<>();
 
+        dialog.showdialog(PlayQuizActivity.this);
 
+        FirebaseDatabase.getInstance().getReference().child("quiz")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            Toast.makeText(PlayQuizActivity.this, "DATA GET", Toast.LENGTH_SHORT).show();
+                        }
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                QuestionModal question = snapshot.getValue(QuestionModal.class);
+                                list.add(question);
+                                dialog.dismissdialog();
+                            }
+                            setNextQuestions();
+                        }
 
-        list.add(new QuestionModal("How are ___", "i", "are", "you", "your", "you"));
-        list.add(new QuestionModal("I am __", "sine", "line", "fine", "dine", "fine"));
-        list.add(new QuestionModal("I am __", "sine", "line", "fine", "dine", "fine"));
-        list.add(new QuestionModal("I am __", "sine", "line", "fine", "dine", "fine"));
-        list.add(new QuestionModal("I am __", "sine", "line", "fine", "dine", "fine"));
-        list.add(new QuestionModal("I am __", "sine", "line", "fine", "dine", "fine"));
-        list.add(new QuestionModal("I am __", "sine", "line", "fine", "dine", "fine"));
-        list.add(new QuestionModal("I am __", "sine", "line", "fine", "dine", "fine"));
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // handle error
+                    }
+                });
+
 
         binding.Continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 resetQuestion();
-                if (index <list.size()){
+                if (index <=list.size()){
                     index++;
-                    textViewClicked = false;
                     setNextQuestions();
+                    textViewClicked = false;
                 }else{
-                    Toast.makeText(PlayQuizActivity.this, "Finish", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(PlayQuizActivity.this, QuizResultActivity.class);
+                    intent.putExtra("correct", correctAnswer);
+                    intent.putExtra("total", list.size());
+                    startActivity(intent);
                     textViewClicked = false;
                 }
             }
@@ -120,7 +138,7 @@ public class PlayQuizActivity extends AppCompatActivity implements View.OnClickL
 
         textView.setBackground(getResources().getDrawable(R.drawable.quiz_option_selected));
         if (selectedAnswer.equals(questionModal.getAnswer())){
-
+                        correctAnswer++;
             check.setVisibility(View.VISIBLE);
             check.setBackground(getResources().getDrawable(R.drawable.right));
         }else{
