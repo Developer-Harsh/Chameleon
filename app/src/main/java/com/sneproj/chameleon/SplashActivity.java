@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import com.sneproj.chameleon.databinding.ActivitySplashBinding;
 
+import java.util.MissingFormatArgumentException;
+
 public class SplashActivity extends AppCompatActivity {
 
     ActivitySplashBinding binding;
@@ -35,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 } finally {
 
-                    Intent intent = new Intent(SplashActivity.this, OnboardActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, RandomMatchActivity.class);
 
                     startActivity(intent);
                     finish();

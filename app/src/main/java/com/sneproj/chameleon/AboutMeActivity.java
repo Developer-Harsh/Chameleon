@@ -82,14 +82,6 @@ public class AboutMeActivity extends AppCompatActivity {
                     usermodal = snapshot.getValue(User.class);
                     countrycode = usermodal.countrycode;
                     binding.ccp.setDefaultCountryUsingNameCodeAndApply(countrycode);
-                    String gender = usermodal.gender;
-                    if (gender.equals("Male")) {
-                        binding.male.setChecked(true);
-                    } else if (gender.equals("Female")) {
-                        binding.female.setChecked(true);
-                    } else {
-
-                    }
                     loadingDialog.dismissdialog();
 
 
@@ -98,6 +90,26 @@ public class AboutMeActivity extends AppCompatActivity {
                     Toast.makeText(AboutMeActivity.this, "Not available", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        reference.child("gender").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String gen = snapshot.getValue(String.class);
+
+                    if (gen.contains("Male")){
+                        binding.male.setChecked(true);
+                    }else{
+                        binding.female.setChecked(true);
+                    }
+                }
             }
 
             @Override
