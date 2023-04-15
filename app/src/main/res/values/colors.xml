@@ -20,5 +20,6 @@
     <color name="mainColor">#490255</color>
     <color name="chip_bg">#E7E7EF</color>
     <color name="bg_main">#E7F4FB</color>
+    <color name="image_unselected">#465D6A </color>
 
 </resources>

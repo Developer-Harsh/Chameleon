@@ -92,7 +92,7 @@ public class ChipAdapter extends RecyclerView.Adapter<ChipAdapter.ChipViewHolder
                 selectedItemsList.add(item);
                 holder.chip.setChipBackgroundColorResource(R.color.mainColor);
                 holder.chip.setTextColor(Color.WHITE);
-                mDatabase.child("intrest").child(itemname).setValue(itemname).addOnCompleteListener(new OnCompleteListener<Void>() {
+                mDatabase.child("intrest").child(itemname).child("chiptext").setValue(itemname).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){

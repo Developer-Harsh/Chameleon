@@ -34,10 +34,11 @@
                 android:layout_width="0dp"
                 android:layout_marginStart="20dp"
                 android:layout_weight="1"
+                android:maxLines="1"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:gravity="center_vertical"
-                android:text="Dhruv Gupta"
+                android:text="Dhruv "
                 android:textColor="#131313"
                 android:fontFamily="@font/poppins_bold" />
 
@@ -276,10 +277,10 @@
                     android:id="@+id/profile_bio"
                     android:layout_width="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:layout_marginStart="5dp"
+
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:layout_margin="5dp"
+                    android:layout_marginHorizontal="15dp"
                     android:text="@string/refer_details"
                     android:textColor="#202122"
                     android:fontFamily="@font/poppins" />
@@ -300,26 +301,168 @@
                     app:cornerRadius="50dp"
                     />
 
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tab"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/bg_main"
-                    app:tabIndicatorColor="@color/black"
-                    app:tabIndicatorHeight="2dp"
-                    app:tabSelectedTextColor="@color/black"
-                    app:tabIndicatorFullWidth="false"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:weightSum="3">
 
-                </com.google.android.material.tabs.TabLayout>
+                    <ImageView
+                        android:id="@+id/level_tab"
+                        android:layout_weight="1"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/graph"
+                        app:tint="#465D6A" />
 
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/viewpager"
+                    <ImageView
+                        android:id="@+id/calendar_tab"
+                        android:layout_weight="1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:tint="#465D6A"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/calendar"/>
+
+                    <ImageView
+                        android:id="@+id/video_tab"
+                        android:layout_weight="1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:tint="#465D6A"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/play"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/level_item"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="700dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tab" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_marginStart="15dp"
+                        android:gravity="center_vertical"
+                        android:text="Interests"
+                        android:textColor="#202122"
+                        android:fontFamily="@font/poppins_bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/interest_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+           />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="15dp"
+                        android:gravity="center_vertical"
+                        android:text="Languages"
+                        android:textColor="#202122"
+                        android:fontFamily="@font/poppins_bold" />
+
+                    <TextView
+                        android:id="@+id/language"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:layout_marginStart="15dp"
+                        android:gravity="center_vertical"
+                        android:text="Lang"
+                        android:textColor="#202122"
+                        android:fontFamily="@font/poppins_medium" />
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/calendar_item"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/video_nodata"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:gravity="center_horizontal"
+                        android:layout_marginStart="15dp"
+                        android:text="No Video Available"
+                        android:visibility="visible"
+                        android:textColor="#202122"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/poppins_bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/video_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/video_item"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/calendar_nodata"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:gravity="center_horizontal"
+                        android:layout_marginStart="15dp"
+                        android:text="No Class Available"
+                        android:visibility="visible"
+                        android:textColor="#202122"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/poppins_bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/class_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+
+                </LinearLayout>
+
+
+<!--                <com.google.android.material.tabs.TabLayout-->
+<!--                    android:id="@+id/tab"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@color/bg_main"-->
+<!--                    app:tabIndicatorColor="@color/black"-->
+<!--                    app:tabIndicatorHeight="2dp"-->
+<!--                    app:tabSelectedTextColor="@color/black"-->
+<!--                    app:tabIndicatorFullWidth="false"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/textView2">-->
+
+<!--                </com.google.android.material.tabs.TabLayout>-->
+
+<!--                <androidx.viewpager.widget.ViewPager-->
+<!--                    android:id="@+id/viewpager"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="700dp"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/tab" />-->
 
 
 

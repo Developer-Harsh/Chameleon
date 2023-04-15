@@ -53,6 +53,8 @@ public class RateTeacherAdapter extends RecyclerView.Adapter<RateTeacherAdapter.
                 intent.putExtra("bio", user.bio);
                 intent.putExtra("email", user.email);
                 intent.putExtra("location", user.location);
+                intent.putExtra("uid", user.uid);
+                intent.putExtra("lang", user.nativeLang);
            context.startActivity(intent);
             }
         });
