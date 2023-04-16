@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/profile_chat"
+        android:icon="@drawable/messages"
+        android:title="Message" />
+    <item
+        android:id="@+id/profile_block"
+        android:icon="@drawable/blocked"
+        android:title="Block" />
+    <item
+        android:id="@+id/profile_report"
+        android:icon="@drawable/report"
+        android:title="Report" />
+</menu>

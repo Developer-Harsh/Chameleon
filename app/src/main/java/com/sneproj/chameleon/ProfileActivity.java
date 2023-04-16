@@ -1,29 +1,46 @@
 package com.sneproj.chameleon;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sneproj.chameleon.adapter.InterestAdapter;
 import com.sneproj.chameleon.databinding.ActivityProfileBinding;
+import com.sneproj.chameleon.databinding.LogoutdialogBinding;
+import com.sneproj.chameleon.utils.Constants;
 
 import java.util.ArrayList;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ActivityProfileBinding binding;
     InterestAdapter adapter;
     ArrayList<ChipModal> list;
+    FirebaseDatabase database;
+    DatabaseReference reference;
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +51,30 @@ public class ProfileActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(ProfileActivity.this.getColor(R.color.bg_main));
+            getWindow().setNavigationBarColor(ProfileActivity.this.getColor(R.color.bg_main));
+        }
+        toggle = new ActionBarDrawerToggle(ProfileActivity.this, binding.drawerLayout,R.string.start, R.string.close);
+        binding.drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        binding.navigationView.setNavigationItemSelectedListener(this);
+
+        binding.menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                    binding.drawerLayout.closeDrawer(GravityCompat.END);
+                } else {
+                    binding.drawerLayout.openDrawer(GravityCompat.END);
+                }
+            }
+        });
+
+        binding.navigationView.setNavigationItemSelectedListener(this);
+
+
+        reference = FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS);
         String name = getIntent().getStringExtra("name");
         String profile = getIntent().getStringExtra("profile");
         String uname = getIntent().getStringExtra("uname");
@@ -58,10 +99,6 @@ public class ProfileActivity extends AppCompatActivity {
         adapter = new InterestAdapter( list, ProfileActivity.this);
         binding.interestRecyclerview.setAdapter(adapter);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().setStatusBarColor(ProfileActivity.this.getColor(R.color.bg_main));
-            getWindow().setNavigationBarColor(ProfileActivity.this.getColor(R.color.bg_main));
-        }
         binding.levelTab.setColorFilter(ContextCompat.getColor(ProfileActivity.this, R.color.image_unselected), PorterDuff.Mode.SRC_ATOP);
         binding.levelItem.setVisibility(View.VISIBLE);
         FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("intrest")
@@ -120,9 +157,58 @@ public class ProfileActivity extends AppCompatActivity {
                 binding.calendarItem.setVisibility(View.GONE);
             }
         });
+        binding.back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+//        binding.favourite.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                reference.child("rates")
+//                        .child(String.valueOf(id)).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<Void> task) {
+//                                if (task.isSuccessful()){
+//                                    Toast.makeText(context, "Remove", Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        });
+//
+//            }
+//        });
 
 
 
 
     }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(toggle.onOptionsItemSelected(item)){
+            return true;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.profile_chat:
+                startActivity(new Intent(ProfileActivity.this, MessengerActivity.class));
+                break;
+            case R.id.profile_block:
+                Toast.makeText(this, "Block", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.profile_report:
+                Toast.makeText(this, "Report", Toast.LENGTH_SHORT).show();
+
+                break;
+
+        }
+        binding.drawerLayout.closeDrawer(GravityCompat.END);
+        return true;
+    }
+
 }
