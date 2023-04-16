@@ -22,6 +22,7 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +41,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     ArrayList<ChipModal> list;
     FirebaseDatabase database;
     DatabaseReference reference;
+    FirebaseAuth auth;
     private ActionBarDrawerToggle toggle;
 
     @Override
@@ -75,6 +77,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
 
         reference = FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS);
+        auth = FirebaseAuth.getInstance();
         String name = getIntent().getStringExtra("name");
         String profile = getIntent().getStringExtra("profile");
         String uname = getIntent().getStringExtra("uname");
@@ -164,21 +167,55 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             }
         });
 
-//        binding.favourite.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                reference.child("rates")
-//                        .child(String.valueOf(id)).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                if (task.isSuccessful()){
-//                                    Toast.makeText(context, "Remove", Toast.LENGTH_SHORT).show();
-//                                }
-//                            }
-//                        });
-//
-//            }
-//        });
+        reference.child(auth.getCurrentUser().getUid()).child("Favourite")
+                .child(uid).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            binding.favourite.setImageDrawable(getResources().getDrawable(R.drawable.favfill));
+                        }else{
+                            binding.favourite.setImageDrawable(getResources().getDrawable(R.drawable.fav));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+        binding.favourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reference.child(auth.getCurrentUser().getUid()).child("Favourite")
+                        .child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()){
+                                    binding.favourite.setImageDrawable(getResources().getDrawable(R.drawable.fav));
+                                    snapshot.getRef().removeValue();
+                                }else{
+                                    snapshot.getRef().child("favname").setValue(uid).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()){
+                                                binding.favourite.setImageDrawable(getResources().getDrawable(R.drawable.favfill));
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+
+
+            }
+        });
 
 
 

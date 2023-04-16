@@ -2,6 +2,7 @@ package com.sneproj.chameleon.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,6 +61,55 @@ public class RateTeacherAdapter extends RecyclerView.Adapter<RateTeacherAdapter.
            context.startActivity(intent);
             }
         });
+        FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Favourite")
+                .child(userList.get(position).getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            holder.binding.rate.setImageDrawable(context.getResources().getDrawable(R.drawable.starfill));
+                        }else{
+                            holder.binding.rate.setImageDrawable(context.getResources().getDrawable(R.drawable.star_icon));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+        holder.binding.rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Favourite")
+                        .child(userList.get(position).getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()){
+                                    holder. binding.rate.setImageDrawable(context.getResources().getDrawable(R.drawable.star_icon));
+                                    snapshot.getRef().removeValue();
+                                }else{
+                                    snapshot.getRef().child("favname").setValue(userList.get(position).getUid()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()){
+                                                holder.binding.rate.setImageDrawable(context.getResources().getDrawable(R.drawable.starfill));
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+
+
+            }
+        });
     }
 
     @Override
@@ -78,6 +130,8 @@ public class RateTeacherAdapter extends RecyclerView.Adapter<RateTeacherAdapter.
             Glide.with(context).load(user.profile).into(binding.img);
             binding.bio.setText(user.bio);
             binding.name.setText(user.name);
+
+
 
             FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_PRESENCE)
                     .child(user.uid)
@@ -124,24 +178,25 @@ public class RateTeacherAdapter extends RecyclerView.Adapter<RateTeacherAdapter.
                         }
                     });
 
-            binding.rate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (binding.rate.getTag().equals("rated")) {
-                        FirebaseDatabase.getInstance().getReference()
-                                .child(Constants.COLLECTION_RATES)
-                                .child(user.uid)
-                                .child(FirebaseAuth.getInstance().getUid())
-                                .setValue(true);
-                    } else {
-                        FirebaseDatabase.getInstance().getReference()
-                                .child(Constants.COLLECTION_RATES)
-                                .child(user.uid)
-                                .child(FirebaseAuth.getInstance().getUid())
-                                .removeValue();
-                    }
-                }
-            });
+//            binding.rate.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (binding.rate.getTag().equals("rated")) {
+//                        FirebaseDatabase.getInstance().getReference()
+//                                .child(Constants.COLLECTION_RATES)
+//                                .child(user.uid)
+//                                .child(FirebaseAuth.getInstance().getUid())
+//                                .setValue(true);
+//                    } else {
+//                        FirebaseDatabase.getInstance().getReference()
+//                                .child(Constants.COLLECTION_RATES)
+//                                .child(user.uid)
+//                                .child(FirebaseAuth.getInstance().getUid())
+//                                .removeValue();
+//                    }
+//                }
+//            });
+
         }
     }
 }
