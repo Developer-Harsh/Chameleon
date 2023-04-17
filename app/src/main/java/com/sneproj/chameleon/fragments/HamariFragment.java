@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.sneproj.calendar.code.MainActivity;
 import com.sneproj.chameleon.BuildConfig;
 import com.sneproj.chameleon.EditProfileActivity;
 import com.sneproj.chameleon.LoadingDialog;
@@ -104,6 +105,15 @@ public class HamariFragment extends Fragment implements NavigationView.OnNavigat
             }
         });
 
+        binding.schedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(requireContext(), MainActivity.class));
+            }
+        });
+
+        readRollowing();
+
            binding.navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -124,6 +134,42 @@ public class HamariFragment extends Fragment implements NavigationView.OnNavigat
 
         return binding.getRoot();
 
+}
+
+private void readRollowing() {
+        FirebaseDatabase.getInstance().getReference().child("follow")
+                .child(FirebaseAuth.getInstance().getUid())
+                .child("following")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            binding.followings.setText(snapshot.getChildrenCount() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+    FirebaseDatabase.getInstance().getReference().child("follow")
+            .child(FirebaseAuth.getInstance().getUid())
+            .child("followers")
+            .addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        binding.followers.setText(snapshot.getChildrenCount() + "");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
 }
 
     private void getUserData() {

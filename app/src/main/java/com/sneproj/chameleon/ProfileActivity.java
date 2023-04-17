@@ -47,7 +47,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -221,6 +220,44 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
 
     }
+
+
+    private void readRollowing() {
+        FirebaseDatabase.getInstance().getReference().child("follow")
+                .child(FirebaseAuth.getInstance().getUid())
+                .child("following")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            binding.followings.setText(snapshot.getChildrenCount() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+        FirebaseDatabase.getInstance().getReference().child("follow")
+                .child(FirebaseAuth.getInstance().getUid())
+                .child("followers")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            binding.followers.setText(snapshot.getChildrenCount() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(toggle.onOptionsItemSelected(item)){

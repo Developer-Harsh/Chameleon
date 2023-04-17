@@ -61,6 +61,9 @@ ActivityVideoCallBinding binding;
         binding = ActivityVideoCallBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        channelName = getIntent().getStringExtra("channel");
+        uid = getIntent().getIntExtra("uid", 0);
+
         RtcTokenBuilder2 tokenBuilder2 = new RtcTokenBuilder2();
         int timestap = (int) (System.currentTimeMillis() /1000 + 60);
 
