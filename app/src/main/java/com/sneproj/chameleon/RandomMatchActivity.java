@@ -3,7 +3,6 @@ package com.sneproj.chameleon;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -210,11 +209,7 @@ public class RandomMatchActivity extends AppCompatActivity {
     }
 
     private void callAgoraApi() {
-        Intent intent = new Intent(RandomMatchActivity.this, VIdeoCallActivity.class);
-        intent.putExtra("channel", username);
-        intent.putExtra("isCaller", true);
-        intent.putExtra("uid", 0);
-        startActivity(intent);
+        Toast.makeText(this, "we need to add agora sdk in this project!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

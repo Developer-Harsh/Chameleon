@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
         userList = new ArrayList<>();
         adapter = new CircularTeacherAdapter(userList, getContext(), false);
         binding.teachers.setHasFixedSize(false);
-        binding.teachers.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.teachers.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.teachers.setAdapter(adapter);
 
         readAdhyapak();

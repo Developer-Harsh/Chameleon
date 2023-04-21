@@ -43,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     DatabaseReference reference;
     FirebaseAuth auth;
     private ActionBarDrawerToggle toggle;
+    String uid, name, uname, profile, bio, email, location, lang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,14 +78,14 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         reference = FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS);
         auth = FirebaseAuth.getInstance();
-        String name = getIntent().getStringExtra("name");
-        String profile = getIntent().getStringExtra("profile");
-        String uname = getIntent().getStringExtra("uname");
-        String bio = getIntent().getStringExtra("bio");
-        String email = getIntent().getStringExtra("email");
-        String location = getIntent().getStringExtra("location");
-        String uid = getIntent().getStringExtra("uid");
-        String lang = getIntent().getStringExtra("lang");
+         name = getIntent().getStringExtra("name");
+         profile = getIntent().getStringExtra("profile");
+         uname = getIntent().getStringExtra("uname");
+         bio = getIntent().getStringExtra("bio");
+         email = getIntent().getStringExtra("email");
+         location = getIntent().getStringExtra("location");
+         uid = getIntent().getStringExtra("uid");
+         lang = getIntent().getStringExtra("lang");
 
         binding.profileName.setText(name);
         binding.profileBio.setText(bio);
@@ -270,7 +271,15 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.profile_chat:
-                startActivity(new Intent(ProfileActivity.this, MessengerActivity.class));
+                Intent intent = new Intent(ProfileActivity.this, MessengerActivity.class);
+                intent.putExtra("name", name);
+                intent.putExtra("profile", profile);
+                intent.putExtra("uname", uname);
+                intent.putExtra("bio", bio);
+                intent.putExtra("email", email);
+                intent.putExtra("location", location);
+                intent.putExtra("uid", uid);
+                startActivity(intent);
                 break;
             case R.id.profile_block:
                 Toast.makeText(this, "Block", Toast.LENGTH_SHORT).show();

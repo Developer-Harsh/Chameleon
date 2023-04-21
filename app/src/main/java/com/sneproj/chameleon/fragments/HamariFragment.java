@@ -37,11 +37,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.sneproj.calendar.code.MainActivity;
+
 import com.sneproj.chameleon.BuildConfig;
 import com.sneproj.chameleon.EditProfileActivity;
 import com.sneproj.chameleon.LoadingDialog;
 import com.sneproj.chameleon.LoginActivity;
+import com.sneproj.chameleon.MainActivity;
 import com.sneproj.chameleon.NewUserActivity;
 import com.sneproj.chameleon.R;
 import com.sneproj.chameleon.ReferActivity;

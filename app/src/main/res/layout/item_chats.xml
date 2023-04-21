@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.sneva.roundedview.RoundedImage
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile"
         android:src="@color/colorBlue"
         app:rimage_oval="true"

@@ -107,6 +107,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.UsersViewHolde
                     if (context != null) {
                         Intent intent = new Intent(context, MessengerActivity.class);
                         intent.putExtra("user", user);
+                        intent.putExtra("name", user.name);
+                        intent.putExtra("profile", user.profile);
+                        intent.putExtra("uname", user.uname);
+                        intent.putExtra("bio", user.bio);
+                        intent.putExtra("email", user.email);
+                        intent.putExtra("location", user.location);
+                        intent.putExtra("uid", user.uid);
+                        intent.putExtra("lang", user.nativeLang);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                     }

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -41,6 +42,13 @@ public class MessagingBoardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMessagingBoardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getSupportActionBar().hide();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(MessagingBoardActivity.this.getColor(R.color.bg_main));
+            getWindow().setNavigationBarColor(MessagingBoardActivity.this.getColor(R.color.bg_main));
+        }
+
 
         binding.imageView4.setOnClickListener(v -> finish());
 
@@ -66,15 +74,18 @@ public class MessagingBoardActivity extends AppCompatActivity {
         userList = new ArrayList<>();
         notificationList = new ArrayList<>();
 
+        chatAdapter = new ChatAdapter(MessagingBoardActivity.this, userList);
         binding.chatList.setHasFixedSize(false);
         binding.chatList.setLayoutManager(new LinearLayoutManager(this));
         binding.chatList.setAdapter(chatAdapter);
 
+        notificationsAdapter = new NotificationsAdapter(MessagingBoardActivity.this, notificationList);
         binding.notificationList.setHasFixedSize(false);
         binding.notificationList.setLayoutManager(new LinearLayoutManager(this));
         binding.notificationList.setAdapter(notificationsAdapter);
 
         readNotifications();
+
 
         FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_CHATS)
                 .child(FirebaseAuth.getInstance().getUid())

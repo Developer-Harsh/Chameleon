@@ -78,7 +78,7 @@ ActivityVideoCallBinding binding;
         binding.JoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                joinChannel(view);
+                joinChannel();
             }
         });
         
@@ -139,10 +139,9 @@ ActivityVideoCallBinding binding;
         remoteSurfaceView.setVisibility(View.VISIBLE);
     }
 
-    public void joinChannel(View view) {
+    public void joinChannel() {
         if (checkSelfPermission()) {
             ChannelMediaOptions options = new ChannelMediaOptions();
-
             // For a Video call, set the channel profile as COMMUNICATION.
             options.channelProfile = Constants.CHANNEL_PROFILE_COMMUNICATION;
             // Set the client role as BROADCASTER or AUDIENCE according to the scenario.

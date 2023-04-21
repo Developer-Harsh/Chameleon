@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -44,21 +45,37 @@ public class MessengerActivity extends AppCompatActivity {
     String senderRoom, receiverRoom;
     FirebaseDatabase database;
     FirebaseStorage storage;
-    User user;
+//    User user;
     String senderUid;
     String receiverUid;
+    String uid, name, uname, profile, bio, email, location, lang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMessengerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getSupportActionBar().hide();
 
-        user = (User) getIntent().getSerializableExtra("user");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().setStatusBarColor(MessengerActivity.this.getColor(R.color.bg_main));
+            getWindow().setNavigationBarColor(MessengerActivity.this.getColor(R.color.bg_main));
+        }
+        name = getIntent().getStringExtra("name");
+        profile = getIntent().getStringExtra("profile");
+        uname = getIntent().getStringExtra("uname");
+        bio = getIntent().getStringExtra("bio");
+        email = getIntent().getStringExtra("email");
+        location = getIntent().getStringExtra("location");
+        uid = getIntent().getStringExtra("uid");
+        lang = getIntent().getStringExtra("lang");
+
+//        user = (User) getIntent().getSerializableExtra("user");
+        uid = getIntent().getStringExtra("uid");
         database = FirebaseDatabase.getInstance();
         database.getReference().keepSynced(true);
         storage = FirebaseStorage.getInstance();
-        receiverUid = user.uid;
+        receiverUid = uid;
         senderUid = FirebaseAuth.getInstance().getUid();
         messages = new ArrayList<>();
         senderRoom = senderUid + receiverUid;
@@ -76,10 +93,10 @@ public class MessengerActivity extends AppCompatActivity {
             }
         }, 1000);
 
-        binding.name.setText(user.name);
+        binding.name.setText(name);
 
         Glide.with(MessengerActivity.this)
-                .load(user.profile)
+                .load(profile)
                 .into(binding.profile);
 
         database.getReference().keepSynced(true);
@@ -118,7 +135,15 @@ public class MessengerActivity extends AppCompatActivity {
 
         binding.bar.setOnClickListener(v -> {
             Intent intent = new Intent(MessengerActivity.this, ProfileActivity.class);
-            intent.putExtra("uid", user.uid);
+            intent.putExtra("uid", uid);
+            intent.putExtra("name", name);
+            intent.putExtra("profile", profile);
+            intent.putExtra("uname", uname);
+            intent.putExtra("bio", bio);
+            intent.putExtra("email", email);
+            intent.putExtra("location", location);
+            intent.putExtra("uid", uid);
+            intent.putExtra("lang", lang);
             startActivity(intent);
         });
 
