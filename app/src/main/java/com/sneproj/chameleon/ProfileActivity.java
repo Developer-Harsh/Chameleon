@@ -57,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             getWindow().setStatusBarColor(ProfileActivity.this.getColor(R.color.bg_main));
             getWindow().setNavigationBarColor(ProfileActivity.this.getColor(R.color.bg_main));
         }
-        toggle = new ActionBarDrawerToggle(ProfileActivity.this, binding.drawerLayout,R.string.start, R.string.close);
+        toggle = new ActionBarDrawerToggle(ProfileActivity.this, binding.drawerLayout, R.string.start, R.string.close);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         binding.navigationView.setNavigationItemSelectedListener(this);
@@ -65,7 +65,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         binding.menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                if (binding.drawerLayout.isDrawerOpen(GravityCompat.END)) {
                     binding.drawerLayout.closeDrawer(GravityCompat.END);
                 } else {
                     binding.drawerLayout.openDrawer(GravityCompat.END);
@@ -78,14 +78,16 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         reference = FirebaseDatabase.getInstance().getReference().child(Constants.COLLECTION_USERS);
         auth = FirebaseAuth.getInstance();
-         name = getIntent().getStringExtra("name");
-         profile = getIntent().getStringExtra("profile");
-         uname = getIntent().getStringExtra("uname");
-         bio = getIntent().getStringExtra("bio");
-         email = getIntent().getStringExtra("email");
-         location = getIntent().getStringExtra("location");
-         uid = getIntent().getStringExtra("uid");
-         lang = getIntent().getStringExtra("lang");
+        name = getIntent().getStringExtra("name");
+        profile = getIntent().getStringExtra("profile");
+        uname = getIntent().getStringExtra("uname");
+        bio = getIntent().getStringExtra("bio");
+        email = getIntent().getStringExtra("email");
+        location = getIntent().getStringExtra("location");
+        uid = getIntent().getStringExtra("uid");
+        lang = getIntent().getStringExtra("lang");
+
+        readRollowing();
 
         binding.profileName.setText(name);
         binding.profileBio.setText(bio);
@@ -95,34 +97,34 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         binding.language.setText(lang);
         Glide.with(ProfileActivity.this).load(profile).into(binding.profileImage);
 
-        list= new ArrayList<>();
+        list = new ArrayList<>();
         FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(this);
         binding.interestRecyclerview.setLayoutManager(layoutManager);
         binding.interestRecyclerview.setHasFixedSize(true);
-        adapter = new InterestAdapter( list, ProfileActivity.this);
+        adapter = new InterestAdapter(list, ProfileActivity.this);
         binding.interestRecyclerview.setAdapter(adapter);
 
         binding.levelTab.setColorFilter(ContextCompat.getColor(ProfileActivity.this, R.color.image_unselected), PorterDuff.Mode.SRC_ATOP);
         binding.levelItem.setVisibility(View.VISIBLE);
         FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("intrest")
                 .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                         ChipModal chipModal =dataSnapshot.getValue(ChipModal.class);
-                            list.add(chipModal);
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                ChipModal chipModal = dataSnapshot.getValue(ChipModal.class);
+                                list.add(chipModal);
+                            }
+                            adapter.notifyDataSetChanged(); // notify adapter of data changes
+
+                        }
                     }
-                    adapter.notifyDataSetChanged(); // notify adapter of data changes
 
-                }
-            }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+                    }
+                });
 
         binding.levelTab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,9 +173,9 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 .child(uid).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()){
+                        if (snapshot.exists()) {
                             binding.favourite.setImageDrawable(getResources().getDrawable(R.drawable.favfill));
-                        }else{
+                        } else {
                             binding.favourite.setImageDrawable(getResources().getDrawable(R.drawable.fav));
                         }
                     }
@@ -187,37 +189,29 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         binding.favourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reference.child(auth.getCurrentUser().getUid()).child("Favourite")
-                        .child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.exists()){
-                                    binding.favourite.setImageDrawable(getResources().getDrawable(R.drawable.fav));
-                                    snapshot.getRef().removeValue();
-                                }else{
-                                    snapshot.getRef().child("favname").setValue(uid).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()){
-                                                binding.favourite.setImageDrawable(getResources().getDrawable(R.drawable.favfill));
-                                            }
-                                        }
-                                    });
-                                }
-                            }
+                if (binding.favourite.getTag().equals("favFill")) {
+                    FirebaseDatabase.getInstance().getReference().child("follow")
+                            .child(FirebaseAuth.getInstance().getUid())
+                            .child("following")
+                            .child(uid).removeValue();
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                    FirebaseDatabase.getInstance().getReference().child("follow")
+                            .child(uid)
+                            .child("followers")
+                            .child(FirebaseAuth.getInstance().getUid()).removeValue();
+                } else {
+                    FirebaseDatabase.getInstance().getReference().child("follow")
+                            .child(FirebaseAuth.getInstance().getUid())
+                            .child("following")
+                            .child(uid).setValue(true);
 
-                            }
-                        });
-
-
-
+                    FirebaseDatabase.getInstance().getReference().child("follow")
+                            .child(uid)
+                            .child("followers")
+                            .child(FirebaseAuth.getInstance().getUid()).setValue(true);
+                }
             }
         });
-
-
 
 
     }
@@ -230,8 +224,15 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
+                        if (snapshot.exists())
                             binding.followings.setText(snapshot.getChildrenCount() + "");
+
+                        if (snapshot.hasChild(uid)) {
+                            binding.favourite.setImageResource(R.drawable.favfill);
+                            binding.favourite.setTag("favFill");
+                        } else {
+                            binding.favourite.setImageResource(R.drawable.fav);
+                            binding.favourite.setTag("fav");
                         }
                     }
 
@@ -247,9 +248,8 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
+                        if (snapshot.exists())
                             binding.followers.setText(snapshot.getChildrenCount() + "");
-                        }
                     }
 
                     @Override
@@ -261,7 +261,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(toggle.onOptionsItemSelected(item)){
+        if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
         return true;
@@ -269,7 +269,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.profile_chat:
                 Intent intent = new Intent(ProfileActivity.this, MessengerActivity.class);
                 intent.putExtra("name", name);
